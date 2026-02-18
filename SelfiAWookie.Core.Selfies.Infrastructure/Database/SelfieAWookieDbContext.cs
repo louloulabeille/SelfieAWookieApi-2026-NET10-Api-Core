@@ -25,7 +25,9 @@ namespace SelfiAWookie.Core.Selfies.Infrastructure
 
             // Apply configurations entre les tables 
             modelBuilder.ApplyConfiguration(new SelfieEntityTypeConfiguration());
+            modelBuilder.ApplyConfiguration(new WookieEntityTypeConfiguration());  
 
+            //la configuration on peut la faire directement ici
             /*modelBuilder.Entity<Selfie>()
                 .HasOne(s => s.Wookie)
                 .WithMany()

@@ -16,9 +16,7 @@ namespace SelfiAWookie.Core.Selfies.Infrastructure.Database.TypeConfiguration
             builder.ToTable("Selfie");
             builder.HasKey(x => x.Id);
             builder.Property(x => x.Title).IsRequired();
-            builder.HasOne(x => x.Wookie)
-                .WithMany()
-                .HasForeignKey("Wookie");
+            builder.HasOne(x => x.Wookie).WithMany(x => x.Selfies);
             builder.Property(x => x.ImagePath).IsRequired(false).HasMaxLength(250);
         }
 
