@@ -13,8 +13,13 @@ namespace SelfiAWookie.Core.Selfies.Infrastructure.Database.TypeConfiguration
 
         public void Configure(EntityTypeBuilder<Selfie> builder)
         {
-            throw 
-                new NotImplementedException();
+            builder.ToTable("Selfie");
+            builder.HasKey(x => x.Id);
+            builder.Property(x => x.Title).IsRequired();
+            builder.HasOne(x => x.Wookie)
+                .WithMany()
+                .HasForeignKey("Wookie");
+            builder.Property(x => x.ImagePath).IsRequired(false).HasMaxLength(250);
         }
 
         #endregion
