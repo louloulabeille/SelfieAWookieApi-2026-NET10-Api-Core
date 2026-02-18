@@ -1,0 +1,35 @@
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+using SelfieAWookies.Selfies.Domain;
+
+namespace SelfieAWookieApi.Controllers
+{
+    [Route("api/v1/[controller]")]
+    [ApiController]
+    public class SelfieAWookieController : ControllerBase
+    {
+        #region Public Methods
+        //[HttpGetAttribute("GetAll")]
+        //public IEnumerable<Selfie> GetAll() {
+        //    return Enumerable.Range(1,10).Select(index=> new Selfie { 
+        //        Id = index
+        //    }).ToArray();
+        //}
+
+        [HttpGet("GetAll")]
+        public IActionResult GetAll()
+        {
+            //return this.StatusCode(StatusCodes.Status202Accepted);
+            //return this.BadRequest("This is a bad request example");
+
+            return this.Ok(Enumerable.Range(1, 10).Select(index => new Selfie
+            {
+                Id = index,
+                Title = $"Selfie {index}",
+                Wookie = new Wookie { Id = index, Name = $"Wookie {index}" }
+            }).ToArray()); 
+        }
+        #endregion
+
+    }
+}

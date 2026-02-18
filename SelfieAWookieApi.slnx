@@ -1,0 +1,8 @@
+<Solution>
+  <Folder Name="/Tests/">
+    <Project Path="SelfieTestUnitaire/SelfieTestUnitaire.csproj" Id="c58f037b-0597-44d0-80a5-1101c1e692b0" />
+  </Folder>
+  <Project Path="SelfiAWookie.Core.Selfies.Infrastructure/SelfiAWookie.Core.Selfies.Infrastructure.csproj" Id="3f73aa9d-21ec-402d-8846-27131c7eb8a3" />
+  <Project Path="SelfieAWookieApi/SelfieAWookieApi.csproj" />
+  <Project Path="SelfieAWookies.Selfies.Domain/SelfieAWookies.Selfies.Domain.csproj" Id="fff4788a-4f49-443b-b147-311b197b8f97" />
+</Solution>
