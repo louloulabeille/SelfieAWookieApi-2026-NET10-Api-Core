@@ -9,17 +9,22 @@ builder.Services.AddControllers();
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddOpenApi();
 builder.Services.AddEndpointsApiExplorer();
+
+#region Swagger
 //ajout de swagger pour la documentation de l'API & il faut installer le package
 //Swashbuckle.AspNetCore pour que ça fonctionne
-builder.Services.AddSwaggerGen();   
+builder.Services.AddSwaggerGen();
 
+#endregion
+
+#region dbContext
 //mise en place de la connection vers la base de données
 //recherche des paramètres de connection vers la base 
 string? stringConnection = builder.Configuration.GetConnectionString("DefaultConnection") ??
     throw new InvalidOperationException("Connection string 'DefaultConnection' not found");
 
 //mise en place de la connection vers la base sqlserveur
-#region dbContext
+
 builder.Services.AddDbContext<SelfieAWookieDbContext>(options =>
     options.UseSqlServer(stringConnection));
 #endregion
@@ -31,6 +36,8 @@ var app = builder.Build();
 if (app.Environment.IsDevelopment())
 {
     app.MapOpenApi();
+
+    #region lancement du swagger
     // lancement du swagger
     app.UseSwagger();
     app.UseSwaggerUI(); // lien https://localhost:7030/swagger/index.html
@@ -42,6 +49,8 @@ if (app.Environment.IsDevelopment())
         options.RoutePrefix = string.Empty;
     });
     */
+
+    #endregion 
 
 }
 
