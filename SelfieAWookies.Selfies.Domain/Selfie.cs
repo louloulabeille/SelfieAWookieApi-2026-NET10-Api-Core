@@ -1,5 +1,6 @@
 ﻿namespace SelfieAWookies.Selfies.Domain
 {
+    [Serializable]
     public class Selfie
     {
         #region Properties

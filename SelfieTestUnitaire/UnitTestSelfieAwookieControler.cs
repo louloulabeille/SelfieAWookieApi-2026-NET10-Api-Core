@@ -11,6 +11,8 @@ namespace SelfieTestUnitaire
         public void ShouldReturnGetAllSelfie()
         {
             //Arrange
+
+
             //Données à retourner
             var controller = new SelfieAWookieController( );
 
