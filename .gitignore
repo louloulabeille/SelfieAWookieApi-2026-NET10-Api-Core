@@ -362,3 +362,4 @@ MigrationBackup/
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
 /SelfiAWookie.Core.Selfies.Infrastructure/Database/SelfieAWookiContextFactory.cs
+/SelfieAWookieApi/appsettings.Development.json
