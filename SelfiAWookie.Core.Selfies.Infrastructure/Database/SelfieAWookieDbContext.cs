@@ -1,11 +1,11 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using SelfiAWookie.Core.Selfies.Infrastructure.Database.TypeConfiguration;
+using SelfieAWookie.Core.Selfies.Infrastructure.Database.TypeConfiguration;
 using SelfieAWookies.Selfies.Domain;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace SelfiAWookie.Core.Selfies.Infrastructure
+namespace SelfieAWookie.Core.Selfies.Infrastructure
 {
     public class SelfieAWookieDbContext : DbContext
     {
@@ -35,10 +35,13 @@ namespace SelfiAWookie.Core.Selfies.Infrastructure
                 .OnDelete(DeleteBehavior.Cascade);*/
         }
 
+        /*
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            base.OnConfiguring(optionsBuilder);
+            //base.OnConfiguring(optionsBuilder);
+            optionsBuilder.UseSqlServer(@"");
         }
+        */
         #endregion
 
 

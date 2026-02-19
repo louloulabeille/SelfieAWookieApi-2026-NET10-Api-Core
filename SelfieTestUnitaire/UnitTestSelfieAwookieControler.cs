@@ -1,6 +1,7 @@
 ﻿using SelfieAWookieApi.Controllers;
 using SelfieAWookies.Selfies.Domain;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 
 namespace SelfieTestUnitaire
 {
@@ -11,7 +12,7 @@ namespace SelfieTestUnitaire
         {
             //Arrange
             //Données à retourner
-            var controller = new SelfieAWookieController();
+            var controller = new SelfieAWookieController( );
 
             //Act
             var result = controller.GetAll();

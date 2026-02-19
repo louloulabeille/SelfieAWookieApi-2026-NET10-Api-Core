@@ -13,7 +13,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\SelfiAWookie.Core.Selfies.Infrastructure\SelfiAWookie.Core.Selfies.Infrastructure.csproj" />
+    <ProjectReference Include="..\SelfiAWookie.Core.Selfies.Infrastructure\SelfieAWookie.Core.Selfies.Infrastructure.csproj" />
     <ProjectReference Include="..\SelfieAWookies.Selfies.Domain\SelfieAWookies.Selfies.Domain.csproj" />
   </ItemGroup>
 

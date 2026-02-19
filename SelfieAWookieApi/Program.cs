@@ -1,5 +1,5 @@
 using Microsoft.EntityFrameworkCore;
-using SelfiAWookie.Core.Selfies.Infrastructure;
+using SelfieAWookie.Core.Selfies.Infrastructure;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -23,14 +23,22 @@ builder.Services.AddSwaggerGen();
 string? stringConnection = builder.Configuration.GetConnectionString("DefaultConnection") ??
     throw new InvalidOperationException("Connection string 'DefaultConnection' not found");
 
-//mise en place de la connection vers la base sqlserveur
+//mise en place de la connection vers la base postgreSQL
 
 builder.Services.AddDbContext<SelfieAWookieDbContext>(options =>
-    options.UseSqlServer(stringConnection));
+    options.UseNpgsql(stringConnection));
 #endregion
 
 
+/*
+ * 
+ lancement de l'application
+ *
+ */
+
 var app = builder.Build();
+
+#region Middleware
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
@@ -59,5 +67,7 @@ app.UseHttpsRedirection();
 app.UseAuthorization();
 
 app.MapControllers();
+
+#endregion
 
 app.Run();

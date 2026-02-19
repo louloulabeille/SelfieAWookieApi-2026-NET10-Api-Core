@@ -1,13 +1,27 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using SelfieAWookies.Selfies.Domain;
+using System.Data;
 
 namespace SelfieAWookieApi.Controllers
 {
     [Route("api/v1/[controller]")]
     [ApiController]
     public class SelfieAWookieController : ControllerBase
+    //public class SelfieAWookieController(ILogger<SelfieAWookieController> logger): ControllerBase
     {
+        #region constructeur
+        public SelfieAWookieController()
+        {
+        }
+        #endregion
+
+
+        #region private 
+        //private readonly ILogger<SelfieAWookieController> _logger = logger ;
+
+        #endregion
+
         #region Public Methods
         //[HttpGetAttribute("GetAll")]
         //public IEnumerable<Selfie> GetAll() {
