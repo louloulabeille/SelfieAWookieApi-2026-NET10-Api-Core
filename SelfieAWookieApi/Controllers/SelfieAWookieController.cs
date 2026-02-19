@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using SelfieAWookie.Core.Selfies.Infrastructure;
+using SelfieAWookie.Core.Selfies.Interface.Repository;
 using SelfieAWookies.Selfies.Domain;
 using System.Data;
 
@@ -13,9 +14,9 @@ namespace SelfieAWookieApi.Controllers
     //public class SelfieAWookieController(ILogger<SelfieAWookieController> logger): ControllerBase
     {
         #region constructeur
-        public SelfieAWookieController(SelfieAWookieDbContext context)
+        public SelfieAWookieController(ISelfieRepository repository)
         {
-            _context = context;
+            _repository = repository;
         }
 
         #endregion
@@ -23,7 +24,8 @@ namespace SelfieAWookieApi.Controllers
 
         #region private fields
         //private readonly ILogger<SelfieAWookieController> _logger = logger ;
-        private readonly SelfieAWookieDbContext _context;
+        //private readonly SelfieAWookieDbContext? _context;
+        private readonly ISelfieRepository _repository;
         #endregion
 
         #region Public Methods
@@ -36,6 +38,8 @@ namespace SelfieAWookieApi.Controllers
 
             //return this.Ok(_context.Selfies.ToList()); 
 
+            if (_repository == null) return this.NotFound("Aucun enregistrement trouvé");
+            /*
             var query = _context.Selfies.Include(x => x.Wookie).Select(
                 (x)=>
                     new Selfie()
@@ -47,7 +51,8 @@ namespace SelfieAWookieApi.Controllers
                         Wookie = x.Wookie
                     }
                 ).ToList();
-
+            */
+            return _repository.GetAll() is IEnumerable<Selfie> selfies ? Ok(selfies) : this.BadRequest("Erreur de remonter des données ");
             /*
             var query = from selfie in _context.Selfies
                         join wookie in _context.Wookies on selfie.WookieId equals wookie.Id
@@ -61,10 +66,6 @@ namespace SelfieAWookieApi.Controllers
                         };
             */
 
-            if (query is not null)
-                return Ok(query);
-            else
-                return this.BadRequest("Erreur de remonter des dànnées ");
 
         }
         #endregion

@@ -1,5 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using SelfieAWookie.Core.Selfies.Infrastructure;
+using SelfieAWookie.Core.Selfies.Infrastructure.Repository;
+using SelfieAWookie.Core.Selfies.Interface.Repository;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -24,11 +26,15 @@ string? stringConnection = builder.Configuration.GetConnectionString("DefaultCon
     throw new InvalidOperationException("Connection string 'DefaultConnection' not found");
 
 //mise en place de la connection vers la base postgreSQL
-
+// injection de dépendance du dbContext en scoped 
 builder.Services.AddDbContext<SelfieAWookieDbContext>(options =>
     options.UseNpgsql(stringConnection));
 #endregion
 
+#region injection de dépendance
+builder.Services.AddScoped<ISelfieRepository,SelfieDepository>();
+
+#endregion
 
 /*
  * 
