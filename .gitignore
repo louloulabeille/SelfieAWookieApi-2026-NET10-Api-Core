@@ -363,3 +363,5 @@ MigrationBackup/
 FodyWeavers.xsd
 /SelfiAWookie.Core.Selfies.Infrastructure/Database/SelfieAWookiContextFactory.cs
 /SelfieAWookieApi/appsettings.Development.json
+/SelfieTestUnitaire/SelfieTestUnitaire.csproj
+/SelfieTestUnitaire/UnitTestSelfieAwookieControler.cs
