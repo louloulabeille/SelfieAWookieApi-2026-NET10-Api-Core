@@ -9,9 +9,15 @@ namespace SelfieAWookie.Core.Selfies.Infrastructure
 {
     public class SelfieAWookieDbContext : DbContext
     {
+        #region constructeur
         public SelfieAWookieDbContext(DbContextOptions<SelfieAWookieDbContext> options) : base(options)
         {
         }
+
+        public SelfieAWookieDbContext() :base()
+        {
+        }
+        #endregion
 
         #region dbSet
         public DbSet<Selfie> Selfies { get; set; }
