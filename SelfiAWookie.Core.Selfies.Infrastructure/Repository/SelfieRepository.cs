@@ -22,10 +22,6 @@ namespace SelfieAWookie.Core.Selfies.Infrastructure.Repository
             _context = context;
         }
 
-        public SelfieRepository()
-        {
-            _context = new SelfieAWookieDbContext();
-        }
         #endregion
 
         #region method interface IDisposable & ISelfieRepository
@@ -59,12 +55,33 @@ namespace SelfieAWookie.Core.Selfies.Infrastructure.Repository
                     Wookie = new Wookie()
                     {
                         Id = item.Wookie.Id,
-                        Name = item.Wookie.Name
+                        Name = item.Wookie.Name,
+                        Selfies = item.Wookie.Selfies,
                     }
             }).ToList();
         }
         #endregion
 
+        #region methods asynchrone
+        public async Task<IEnumerable<Selfie>> GetAllAsync()
+        {
+            return await _context.Selfies.Include(item => item.Wookie).Select(item =>
+                new Selfie()
+                {
+                    Id = item.Id,
+                    Title = item.Title,
+                    ImagePath = item.ImagePath,
+                    WookieId = item.WookieId,
+                    Wookie = new Wookie()
+                    {
+                        Id = item.Wookie.Id,
+                        Name = item.Wookie.Name,
+                        Selfies = item.Wookie.Selfies,
+                    }
+                }).ToListAsync();
+        }
+
+        #endregion
 
     }
 }

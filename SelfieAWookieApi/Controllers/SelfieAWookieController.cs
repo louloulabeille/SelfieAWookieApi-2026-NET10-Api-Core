@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using SelfieAWookie.Core.Selfies.Infrastructure;
 using SelfieAWookie.Core.Selfies.Interface.Repository;
+using SelfieAWookieApi.Applications.DTO;
 using SelfieAWookies.Selfies.Domain;
 using System.Data;
 
@@ -52,7 +53,16 @@ namespace SelfieAWookieApi.Controllers
                     }
                 ).ToList();
             */
-            return _repository.GetAll() is IEnumerable<Selfie> selfies ? Ok(selfies) : this.BadRequest("Erreur de remonter des données ");
+            var query = _repository.GetAll().Select(item=> new SelfieDTO() { 
+                Title = item.Title, 
+                WookieId = item.WookieId,
+                NbSelfieFromWookie = item.Wookie.Selfies?.Count()
+            });
+
+
+            return query is IEnumerable<SelfieDTO> ?
+                Ok(query)
+                : this.BadRequest("Erreur de remonter des données ");
             /*
             var query = from selfie in _context.Selfies
                         join wookie in _context.Wookies on selfie.WookieId equals wookie.Id
@@ -65,8 +75,6 @@ namespace SelfieAWookieApi.Controllers
                             Wookie = wookie
                         };
             */
-
-
         }
         #endregion
 

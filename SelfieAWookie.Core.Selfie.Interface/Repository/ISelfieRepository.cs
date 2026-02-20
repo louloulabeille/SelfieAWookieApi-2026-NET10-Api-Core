@@ -9,6 +9,5 @@ namespace SelfieAWookie.Core.Selfies.Interface.Repository
     {
         public IEnumerable<Selfie> GetAll();
 
-
     }
 }

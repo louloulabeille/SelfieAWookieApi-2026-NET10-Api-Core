@@ -5,6 +5,7 @@ using Moq;
 using SelfieAWookie.Core.Selfies.Infrastructure;
 using SelfieAWookie.Core.Selfies.Infrastructure.Repository;
 using SelfieAWookie.Core.Selfies.Interface.Repository;
+using SelfieAWookieApi.Applications.DTO;
 using SelfieAWookieApi.Controllers;
 using SelfieAWookies.Selfies.Domain;
 using System.ComponentModel;
@@ -57,7 +58,7 @@ namespace SelfieTestUnitaire
         {
             //Arrange
 
-            /* utilisation du mock mais il faut plmutot utiliser inMemory */
+            /* utilisation du mock - utiliser InMemory */
             /*
             var mockRepository = new Mock<ISelfieRepository>();
             mockRepository.Setup(x => x.GetAll()).Returns(new List<Selfie>
@@ -88,6 +89,7 @@ namespace SelfieTestUnitaire
                 }
             });
             */
+
             ISelfieRepository repository = new SelfieRepository(_context);
 
             //Données à retourner
@@ -96,12 +98,12 @@ namespace SelfieTestUnitaire
             //Act
             var result = controller.GetAll();
             var okResult = result as OkObjectResult; // Cast du résultat en OkObjectResult
-            IEnumerable<Selfie>? selfies = okResult!.Value as IEnumerable<Selfie>; // Cast de la valeur du résultat en IEnumerable<Selfie>
+            IEnumerable<SelfieDTO>? selfiesDTO = okResult!.Value as IEnumerable<SelfieDTO>; // Cast de la valeur du résultat en IEnumerable<Selfie>
 
             //Assert
-            Assert.NotNull(selfies); // Vérifie que le résultat n'est pas null
-            Assert.True(selfies.Any()); // Vérifie que la collection contient au moins un élément
-            Assert.IsType<Selfie> (selfies.First()); // Vérifie que le type des éléments de la collection est Selfie
+            Assert.NotNull(selfiesDTO); // Vérifie que le résultat n'est pas null
+            Assert.True(selfiesDTO.Any()); // Vérifie que la collection contient au moins un élément
+            Assert.IsType<SelfieDTO> (selfiesDTO.First()); // Vérifie que le type des éléments de la collection est Selfie
         }
     }
 }
