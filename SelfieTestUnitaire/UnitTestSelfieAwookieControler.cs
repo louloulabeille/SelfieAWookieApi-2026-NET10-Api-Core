@@ -12,17 +12,6 @@ using System.Runtime.CompilerServices;
 
 namespace SelfieTestUnitaire
 {
-    // création d'une classe de contexte de base de données en mémoire pour les tests unitaires
-    // cette classe hérite de la classe de contexte de base de données réelle
-    // et utilise la méthode OnConfiguring pour configurer une base de données en mémoire
-    public class  SelfieContextMemory : SelfieAWookieDbContext
-    {
-       protected override void OnConfiguring (DbContextOptionsBuilder optionsBuilder)
-       {
-            optionsBuilder.UseInMemoryDatabase(databaseName: "Selfie-Dev");
-       }
-    }
-
     public class UnitTestSelfieAwookieControler
     {
         #region private fields
@@ -99,7 +88,7 @@ namespace SelfieTestUnitaire
                 }
             });
             */
-            ISelfieRepository repository = new SelfieDepository(_context);
+            ISelfieRepository repository = new SelfieRepository(_context);
 
             //Données à retourner
             var controller = new SelfieAWookieController(repository);

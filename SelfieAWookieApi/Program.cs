@@ -32,7 +32,7 @@ builder.Services.AddDbContext<SelfieAWookieDbContext>(options =>
 #endregion
 
 #region injection de dépendance
-builder.Services.AddScoped<ISelfieRepository,SelfieDepository>();
+builder.Services.AddScoped<ISelfieRepository,SelfieRepository>();
 
 #endregion
 

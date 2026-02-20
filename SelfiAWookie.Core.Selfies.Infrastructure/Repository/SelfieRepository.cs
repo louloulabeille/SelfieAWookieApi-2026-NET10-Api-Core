@@ -7,7 +7,9 @@ using System.Text;
 
 namespace SelfieAWookie.Core.Selfies.Infrastructure.Repository
 {
-    public class SelfieDepository : ISelfieRepository
+    // Classe repository pour les selfies qui implémente l'interface ISelfieRepository
+    // et l'interface IDisposable pour la gestion des ressources
+    public class SelfieRepository : ISelfieRepository
     {
         #region private Flields
         private readonly SelfieAWookieDbContext _context;
@@ -15,12 +17,12 @@ namespace SelfieAWookie.Core.Selfies.Infrastructure.Repository
         #endregion
 
         #region constructeur
-        public SelfieDepository(SelfieAWookieDbContext context )
+        public SelfieRepository(SelfieAWookieDbContext context )
         {
             _context = context;
         }
 
-        public SelfieDepository()
+        public SelfieRepository()
         {
             _context = new SelfieAWookieDbContext();
         }
