@@ -7,6 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\SelfieAWookie.Core.Selfies.Framework\SelfieAWookie.Core.Framework.csproj" />
     <ProjectReference Include="..\SelfieAWookies.Selfies.Domain\SelfieAWookies.Selfies.Domain.csproj" />
   </ItemGroup>
 

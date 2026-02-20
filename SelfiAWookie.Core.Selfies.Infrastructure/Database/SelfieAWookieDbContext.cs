@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using SelfieAWookie.Core.Framework;
 using SelfieAWookie.Core.Selfies.Infrastructure.Database.TypeConfiguration;
 using SelfieAWookies.Selfies.Domain;
 using System;
@@ -7,7 +8,7 @@ using System.Text;
 
 namespace SelfieAWookie.Core.Selfies.Infrastructure
 {
-    public class SelfieAWookieDbContext : DbContext
+    public class SelfieAWookieDbContext : DbContext, IUnitOfWork
     {
         #region constructeur
         public SelfieAWookieDbContext(DbContextOptions<SelfieAWookieDbContext> options) : base(options)

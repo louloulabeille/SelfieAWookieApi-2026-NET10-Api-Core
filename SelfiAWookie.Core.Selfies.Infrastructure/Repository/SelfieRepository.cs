@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using SelfieAWookie.Core.Framework;
 using SelfieAWookie.Core.Selfies.Interface.Repository;
 using SelfieAWookies.Selfies.Domain;
 using System;
@@ -9,11 +10,15 @@ namespace SelfieAWookie.Core.Selfies.Infrastructure.Repository
 {
     // Classe repository pour les selfies qui implémente l'interface ISelfieRepository
     // et l'interface IDisposable pour la gestion des ressources
-    public class SelfieRepository : ISelfieRepository
+    public class SelfieRepository : ISelfieRepository , IRepository
     {
         #region private Flields
         private readonly SelfieAWookieDbContext _context;
         private bool disposed = false;
+        #endregion
+
+        #region public Fields
+        public IUnitOfWork UnitOfWork => _context;
         #endregion
 
         #region constructeur
@@ -32,7 +37,7 @@ namespace SelfieAWookie.Core.Selfies.Infrastructure.Repository
             {
                 if (disposing)
                 {
-                   _context.Dispose();
+                    _context.Dispose();
                 }
             }
             this.disposed = true;
