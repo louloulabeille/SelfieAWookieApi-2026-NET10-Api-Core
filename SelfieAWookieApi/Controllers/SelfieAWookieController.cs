@@ -15,11 +15,16 @@ namespace SelfieAWookieApi.Controllers
     //public class SelfieAWookieController(ILogger<SelfieAWookieController> logger): ControllerBase
     {
         #region constructeur
+        /*
         public SelfieAWookieController(ISelfieRepository repository)
         {
             _repository = repository;
         }
-
+        */
+        public SelfieAWookieController(ISelfieRepository repository)
+        {
+            _repository = repository;
+        }
         #endregion
 
 

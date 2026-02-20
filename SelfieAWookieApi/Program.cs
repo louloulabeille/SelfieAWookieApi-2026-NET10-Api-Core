@@ -2,6 +2,7 @@ using Microsoft.EntityFrameworkCore;
 using SelfieAWookie.Core.Selfies.Infrastructure;
 using SelfieAWookie.Core.Selfies.Infrastructure.Repository;
 using SelfieAWookie.Core.Selfies.Interface.Repository;
+using SelfieAWookieApi.Applications.ExtensionsMethods;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -32,8 +33,8 @@ builder.Services.AddDbContext<SelfieAWookieDbContext>(options =>
 #endregion
 
 #region injection de dépendance
-builder.Services.AddScoped<ISelfieRepository,SelfieRepository>();
-
+//builder.Services.AddScoped<ISelfieRepository,SelfieRepository>();
+builder.Services.AddInjectionRepository();
 #endregion
 
 /*

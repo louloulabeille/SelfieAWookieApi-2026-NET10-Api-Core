@@ -34,7 +34,7 @@ namespace SelfieTestUnitaire
                 Wookie = new Wookie
                 {
                     Id = 1,
-                    Name = "Wookie 1"
+                    Name = "Wookie 1",
                 }
             });
             _context.Selfies.Add(new Selfie
@@ -104,6 +104,7 @@ namespace SelfieTestUnitaire
             Assert.NotNull(selfiesDTO); // Vérifie que le résultat n'est pas null
             Assert.True(selfiesDTO.Any()); // Vérifie que la collection contient au moins un élément
             Assert.IsType<SelfieDTO> (selfiesDTO.First()); // Vérifie que le type des éléments de la collection est Selfie
+            Assert.Equal(1, selfiesDTO.First().NbSelfieFromWookie); // Vérifie que la collection contient exactement 2 éléments
         }
     }
 }

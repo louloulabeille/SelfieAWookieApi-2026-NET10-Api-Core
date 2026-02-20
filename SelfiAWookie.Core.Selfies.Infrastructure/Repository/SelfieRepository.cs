@@ -54,8 +54,8 @@ namespace SelfieAWookie.Core.Selfies.Infrastructure.Repository
                     WookieId = item.WookieId,
                     Wookie = new Wookie()
                     {
-                        Id = item.Wookie.Id,
-                        Name = item.Wookie.Name,
+                        Id      = item.Wookie.Id,
+                        Name    = item.Wookie.Name,
                         Selfies = item.Wookie.Selfies,
                     }
             }).ToList();
@@ -74,8 +74,8 @@ namespace SelfieAWookie.Core.Selfies.Infrastructure.Repository
                     WookieId = item.WookieId,
                     Wookie = new Wookie()
                     {
-                        Id = item.Wookie.Id,
-                        Name = item.Wookie.Name,
+                        Id      = item.Wookie.Id,
+                        Name    = item.Wookie.Name,
                         Selfies = item.Wookie.Selfies,
                     }
                 }).ToListAsync();
