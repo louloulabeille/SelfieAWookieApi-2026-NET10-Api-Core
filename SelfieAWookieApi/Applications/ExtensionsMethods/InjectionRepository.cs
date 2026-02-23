@@ -1,5 +1,6 @@
 ﻿using SelfieAWookie.Core.Selfies.Infrastructure.Repository;
 using SelfieAWookie.Core.Selfies.Interface.Repository;
+using SelfieAWookies.Selfies.Domain;
 
 namespace SelfieAWookieApi.Applications.ExtensionsMethods
 {
@@ -11,7 +12,7 @@ namespace SelfieAWookieApi.Applications.ExtensionsMethods
         {
             public IServiceCollection AddInjectionRepository()
             {
-                return services.AddScoped<ISelfieRepository, SelfieRepository>();
+                return services.AddScoped<IRepository<Selfie>, Repository<Selfie>>();
             }
         }
         #endregion
