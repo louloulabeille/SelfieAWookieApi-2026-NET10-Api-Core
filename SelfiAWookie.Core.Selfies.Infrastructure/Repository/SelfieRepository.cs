@@ -61,6 +61,13 @@ namespace SelfieAWookie.Core.Selfies.Infrastructure.Repository
                     }
             });
         }
+
+
+        public Selfie Add(Selfie selfie)
+        {
+            return _context.Selfies.Add(selfie).Entity;
+            
+        }
         #endregion
 
         #region methods asynchrone

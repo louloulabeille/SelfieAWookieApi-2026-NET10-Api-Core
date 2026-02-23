@@ -118,6 +118,36 @@ namespace SelfieTestUnitaire
             Assert.Equal(1, selfiesDTO.First().NbSelfieFromWookie); // Vérifie que la collection contient exactement 2 éléments
         }
 
+
+        [Fact]
+        public void ShouldAddSelfie() { 
+        // test lors de l'insertion d'un selfie par un wookie
+        // on vérifie que le selfie est bien ajouté à la base de données
+
+            //Arrange
+            ISelfieRepository repository = new SelfieRepository(_context);
+            //Data
+            var controller = new SelfieAWookieController(repository);
+
+            //Act
+            SelfieDTOComplete ajoutSelfie = new ()
+            {
+                Title = "Selfie 3",
+                ImagePath = "path/to/image3.jpg",
+                WookieId = 1,
+                Wookie = null
+           
+            };
+            var result = controller.Add(ajoutSelfie);
+
+            var okResult = result as OkObjectResult; // Cast du résultat en OkObjectResult
+            Selfie? retour = okResult!.Value as Selfie; // Cast de la valeur du résultat en IEnumerable<Selfie>
+
+            //Assert
+            Assert.NotNull(retour); // Vérifie que le résultat n'est pas null
+            Assert.IsType<Selfie>(retour); // Vérifie que le type des éléments de la collection est Selfie
+            Assert.Equal(2, retour.Wookie?.Selfies?.Count); // Vérifie que la collection contient exactement 2 éléments
+        }
         #endregion
     }
 }

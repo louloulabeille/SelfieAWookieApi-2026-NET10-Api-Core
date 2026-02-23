@@ -1,7 +1,9 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using SelfieAWookie.Core.Framework;
 using SelfieAWookie.Core.Selfies.Infrastructure;
+using SelfieAWookie.Core.Selfies.Infrastructure.Repository;
 using SelfieAWookie.Core.Selfies.Interface.Repository;
 using SelfieAWookieApi.Applications.DTO;
 using SelfieAWookies.Selfies.Domain;
@@ -24,6 +26,7 @@ namespace SelfieAWookieApi.Controllers
         public SelfieAWookieController(ISelfieRepository repository)
         {
             _repository = repository;
+            _unit = repository as IRepository;
         }
         #endregion
 
@@ -32,6 +35,7 @@ namespace SelfieAWookieApi.Controllers
         //private readonly ILogger<SelfieAWookieController> _logger = logger ;
         //private readonly SelfieAWookieDbContext? _context;
         private readonly ISelfieRepository _repository;
+        private readonly IRepository _unit;
         #endregion
 
         #region Public Methods
@@ -81,6 +85,24 @@ namespace SelfieAWookieApi.Controllers
                         };
             */
         }
+
+        [HttpPost("Add-Selfie")]
+        public IActionResult Add(SelfieDTOComplete selfie)
+        {
+            var entity = new Selfie()
+            {
+                Title = selfie.Title,
+                ImagePath = selfie.ImagePath,
+                WookieId = selfie.WookieId,
+                Wookie = selfie.Wookie
+            };
+            var model = _repository.Add(entity);
+            var unit = _repository as IRepository;
+            //unit?.UnitOfWork.SaveChanges();
+
+            return this.Ok(model);
+        }
+
         #endregion
 
     }
