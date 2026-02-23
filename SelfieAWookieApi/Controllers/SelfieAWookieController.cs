@@ -52,6 +52,34 @@ namespace SelfieAWookieApi.Controllers
             return this.Ok(item);
 
         }
+
+        [HttpPost("Add-Selfie")]
+        public IActionResult AddSelfie(SelfieDTOComplete selfie)
+        {
+            if (selfie is null) return BadRequest("Le selfie ne peut pas être null.");
+
+            var entity = new Selfie
+            {
+                Id = selfie.Id,
+                Title = selfie.Title,
+                ImagePath = selfie.ImagePath,
+                WookieId = selfie.WookieId,
+                Wookie = selfie.Wookie
+            };
+
+            var retour = _unitOfWork.Repository<Selfie>().Add(entity);
+
+            var retourDTO = new SelfieDTOComplete
+            {
+                Id = retour.Id,
+                Title = retour.Title,
+                ImagePath = retour.ImagePath,
+                WookieId = retour.WookieId,
+                Wookie = retour.Wookie
+            };
+            //_unitOfWork.SaveChanges();
+            return Ok(retourDTO);
+        }
         #endregion
 
     }

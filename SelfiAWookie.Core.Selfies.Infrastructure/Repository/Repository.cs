@@ -26,9 +26,9 @@ namespace SelfieAWookie.Core.Selfies.Infrastructure.Repository
         //ajout de virtual pour permettre la surcharge dans les classes dérivées
         //Les méthodes de base pour les opérations CRUD,
         //qui peuvent être surchargées dans les classes dérivées
-        public virtual void Add(T entity)
+        public virtual T Add(T entity)
         {
-            _context.Set<T>().Add(entity);
+            return _context.Set<T>().Add(entity).Entity;
         }
 
         public virtual void Delete(T entity)

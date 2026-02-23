@@ -54,6 +54,7 @@ namespace SelfieTestUnitaire
         }
         #endregion
 
+        #region tests unitaires
         [Fact]
         public void ShouldReturnGetAllSelfie()
         {
@@ -74,5 +75,30 @@ namespace SelfieTestUnitaire
             Assert.IsType<SelfieDTO> (selfiesDTO.First()); // Vérifie que le type des éléments de la collection est Selfie
             Assert.Equal(1, selfiesDTO.First().NbSelfieFromWookie); // Vérifie que la collection contient exactement 2 éléments
         }
+
+        [Fact]
+        public void ShouldAddSelfie()
+        {
+            //Arrange
+            var controller = new SelfieAWookieController(_context);
+            var newSelfie = new SelfieDTOComplete
+            {
+                Id = 3,
+                Title = "Selfie 3",
+                ImagePath = "path/to/image3.jpg",
+                WookieId = 1,
+                Wookie = null
+            };
+            //Act
+            var result = controller.AddSelfie(newSelfie);
+            var okResult = result as OkObjectResult; // Cast du résultat en OkObjectResult
+            var addedSelfieDTO = okResult!.Value as SelfieDTOComplete; // Cast de la valeur du résultat en SelfieDTOComplete
+
+            //Assert
+            Assert.NotNull(addedSelfieDTO); // Vérifie que le résultat n'est pas null
+            Assert.IsType<SelfieDTOComplete>(addedSelfieDTO); // Vérifie que le type du résultat est SelfieDTOComplete
+            Assert.Equal(newSelfie.Title, addedSelfieDTO!.Title); // Vérifie que le titre du selfie ajouté correspond à celui de newSelfie
+        }
+        #endregion
     }
 }

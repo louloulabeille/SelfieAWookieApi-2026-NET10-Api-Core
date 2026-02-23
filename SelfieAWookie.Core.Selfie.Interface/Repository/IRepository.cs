@@ -9,7 +9,7 @@ namespace SelfieAWookie.Core.Selfies.Interface.Repository
     {
         public  IEnumerable<T> GetAll();
         public  T? GetById(int id);
-        public  void Add(T entity);
+        public  T Add(T entity);
         public  void Update(T entity);
         public  void Delete(T entity);
         public IEnumerable<T> Where(Func<T, bool> predicate);
