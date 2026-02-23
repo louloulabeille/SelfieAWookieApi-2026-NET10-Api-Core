@@ -58,27 +58,20 @@ namespace SelfieAWookieApi.Controllers
         {
             if (selfie is null) return BadRequest("Le selfie ne peut pas être null.");
 
-            var entity = new Selfie
+            var retour = _unitOfWork.Repository<Selfie>().Add(new Selfie()
             {
                 Id = selfie.Id,
                 Title = selfie.Title,
                 ImagePath = selfie.ImagePath,
                 WookieId = selfie.WookieId,
                 Wookie = selfie.Wookie
-            };
+            });
 
-            var retour = _unitOfWork.Repository<Selfie>().Add(entity);
+            selfie.Id = retour.Id;
 
-            var retourDTO = new SelfieDTOComplete
-            {
-                Id = retour.Id,
-                Title = retour.Title,
-                ImagePath = retour.ImagePath,
-                WookieId = retour.WookieId,
-                Wookie = retour.Wookie
-            };
+            //on ne le met en place pour le moment sinon la base va être pourrie
             //_unitOfWork.SaveChanges();
-            return Ok(retourDTO);
+            return Ok(selfie);
         }
         #endregion
 
