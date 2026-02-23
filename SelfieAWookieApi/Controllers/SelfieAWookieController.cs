@@ -26,7 +26,6 @@ namespace SelfieAWookieApi.Controllers
         public SelfieAWookieController(ISelfieRepository repository)
         {
             _repository = repository;
-            _unit = repository as IRepository;
         }
         #endregion
 
@@ -35,7 +34,7 @@ namespace SelfieAWookieApi.Controllers
         //private readonly ILogger<SelfieAWookieController> _logger = logger ;
         //private readonly SelfieAWookieDbContext? _context;
         private readonly ISelfieRepository _repository;
-        private readonly IRepository _unit;
+
         #endregion
 
         #region Public Methods
@@ -66,7 +65,7 @@ namespace SelfieAWookieApi.Controllers
             {
                 Title = item.Title,
                 WookieId = item.WookieId,
-                NbSelfieFromWookie = item.Wookie.Selfies?.Count
+                NbSelfieFromWookie = item.Wookie?.Selfies?.Count
             });
 
 
@@ -89,18 +88,16 @@ namespace SelfieAWookieApi.Controllers
         [HttpPost("Add-Selfie")]
         public IActionResult Add(SelfieDTOComplete selfie)
         {
-            var entity = new Selfie()
-            {
+            var model = _repository.Add(new Selfie() {
                 Title = selfie.Title,
                 ImagePath = selfie.ImagePath,
                 WookieId = selfie.WookieId,
                 Wookie = selfie.Wookie
-            };
-            var model = _repository.Add(entity);
+            });
             var unit = _repository as IRepository;
             //unit?.UnitOfWork.SaveChanges();
-
-            return this.Ok(model);
+            selfie.Id = model.Id;
+            return this.Ok(selfie);
         }
 
         #endregion
