@@ -88,14 +88,18 @@ namespace SelfieAWookieApi.Controllers
         [HttpPost("Add-Selfie")]
         public IActionResult Add(SelfieDTOComplete selfie)
         {
+
+            if (selfie == null) return this.BadRequest("Le selfie est vide.");
+
             var model = _repository.Add(new Selfie() {
                 Title = selfie.Title,
                 ImagePath = selfie.ImagePath,
                 WookieId = selfie.WookieId,
                 Wookie = selfie.Wookie
             });
-            var unit = _repository as IRepository;
-            //unit?.UnitOfWork.SaveChanges();
+            
+            //_repository.UnitOfWork.SaveChanges();
+            
             selfie.Id = model.Id;
             return this.Ok(selfie);
         }

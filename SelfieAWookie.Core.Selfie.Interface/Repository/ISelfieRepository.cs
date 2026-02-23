@@ -6,7 +6,7 @@ using SelfieAWookies.Selfies.Domain;
 
 namespace SelfieAWookie.Core.Selfies.Interface.Repository
 {
-    public interface ISelfieRepository : IDisposable
+    public interface ISelfieRepository : IDisposable, IRepository
     {
         public IEnumerable<Selfie> GetAll();
         public Selfie Add(Selfie selfie);

@@ -10,7 +10,7 @@ namespace SelfieAWookie.Core.Selfies.Infrastructure.Repository
 {
     // Classe repository pour les selfies qui implémente l'interface ISelfieRepository
     // et l'interface IDisposable pour la gestion des ressources
-    public class SelfieRepository : ISelfieRepository , IRepository
+    public class SelfieRepository : ISelfieRepository
     {
         #region private Flields
         private readonly SelfieAWookieDbContext _context;
