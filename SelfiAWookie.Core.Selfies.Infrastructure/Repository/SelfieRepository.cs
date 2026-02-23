@@ -22,11 +22,7 @@ namespace SelfieAWookie.Core.Selfies.Infrastructure.Repository
         #endregion
 
         #region constructeur
-        public SelfieRepository(SelfieAWookieDbContext context )
-        {
-            _context = context;
-        }
-
+        public SelfieRepository(SelfieAWookieDbContext context) => _context = context;
         #endregion
 
         #region method interface IDisposable & ISelfieRepository
@@ -63,7 +59,7 @@ namespace SelfieAWookie.Core.Selfies.Infrastructure.Repository
                         Name    = item.Wookie.Name,
                         Selfies = item.Wookie.Selfies,
                     }
-            }).ToList();
+            });
         }
         #endregion
 

@@ -58,15 +58,15 @@ namespace SelfieAWookieApi.Controllers
                     }
                 ).ToList();
             */
-            var query = _repository.GetAll().Select(item=> new SelfieDTO() { 
-                Title = item.Title, 
+            var query = _repository.GetAll().Select(item => new SelfieDTO()
+            {
+                Title = item.Title,
                 WookieId = item.WookieId,
-                NbSelfieFromWookie = item.Wookie.Selfies?.Count()
+                NbSelfieFromWookie = item.Wookie.Selfies?.Count
             });
 
 
-            return query is IEnumerable<SelfieDTO> ?
-                Ok(query)
+            return query is IEnumerable<SelfieDTO> and not null ? Ok(query)
                 : this.BadRequest("Erreur de remonter des données ");
             /*
             var query = from selfie in _context.Selfies
