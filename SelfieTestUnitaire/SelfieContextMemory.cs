@@ -13,6 +13,7 @@ namespace SelfieTestUnitaire
     {
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
+            // appel de la méthode de configuration de la base de données en mémoire
             optionsBuilder.UseInMemoryDatabase(databaseName: "Selfie-Dev");
         }
     }

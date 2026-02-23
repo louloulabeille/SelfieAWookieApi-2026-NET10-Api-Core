@@ -25,6 +25,14 @@ namespace SelfieTestUnitaire
         {
             // initialisation du contexte de base de données en mémoire et ajout de données de test
             _context = new SelfieContextMemory();
+            this.Init();
+        }
+        #endregion
+
+        #region méthode init
+        private void Init()
+        {
+            // initialisation du contexte de base de données en mémoire et ajout de données de test
             _context.Selfies.Add(new Selfie
             {
                 Id = 1,
@@ -51,8 +59,11 @@ namespace SelfieTestUnitaire
             });
             _context.SaveChanges();
         }
+
         #endregion
 
+
+        #region tests unitaires
         [Fact]
         public void ShouldReturnGetAllSelfie()
         {
@@ -106,5 +117,7 @@ namespace SelfieTestUnitaire
             Assert.IsType<SelfieDTO> (selfiesDTO.First()); // Vérifie que le type des éléments de la collection est Selfie
             Assert.Equal(1, selfiesDTO.First().NbSelfieFromWookie); // Vérifie que la collection contient exactement 2 éléments
         }
+
+        #endregion
     }
 }
