@@ -55,14 +55,14 @@ namespace SelfieAWookie.Core.Selfies.Infrastructure.Repository
                     WookieId = item.WookieId,
                     Wookie = new Wookie()
                     {
-                        Id      = item.Wookie.Id,
+                        Id      = item.Wookie!.Id,
                         Name    = item.Wookie.Name,
                         Selfies = item.Wookie.Selfies,
                     }
             });
         }
 
-
+        // méthode pour ajouter un selfie à la base de données
         public Selfie Add(Selfie selfie)
         {
             return _context.Selfies.Add(selfie).Entity;
@@ -82,7 +82,7 @@ namespace SelfieAWookie.Core.Selfies.Infrastructure.Repository
                     WookieId = item.WookieId,
                     Wookie = new Wookie()
                     {
-                        Id      = item.Wookie.Id,
+                        Id      = item.Wookie!.Id,
                         Name    = item.Wookie.Name,
                         Selfies = item.Wookie.Selfies,
                     }
