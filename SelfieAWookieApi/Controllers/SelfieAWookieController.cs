@@ -39,7 +39,7 @@ namespace SelfieAWookieApi.Controllers
 
         #region Public Methods
 
-        [HttpGet("GetAll")]
+        /*[HttpGet("GetAll")]
         public IActionResult GetAll()
         {
             var model = _unitOfWork.Repository<Selfie>().GetAll()
@@ -53,7 +53,7 @@ namespace SelfieAWookieApi.Controllers
 
             return this.Ok(model);
 
-        }
+        }*/
 
         [HttpPost("Add-Selfie")]
         public IActionResult AddSelfie(SelfieDTOComplete selfie)
@@ -81,9 +81,27 @@ namespace SelfieAWookieApi.Controllers
         }
 
         [HttpGet]
-        public IActionResult GetAll(int id)
+        public IActionResult GetAll([FromQuery]int? id)
         {
-            if (id <= 0 ) return this.BadRequest("id > 0 && required");
+            var model = _unitOfWork.Repository<Selfie>().GetAll().AsQueryable();
+
+            if (id is null || id == 0)
+            {
+                
+                var retour = model.Select(x => new SelfieDTO
+                {
+                    Title = x.Title,
+                    WookieId = x.WookieId,
+                    NbSelfieFromWookie = _unitOfWork.Repository<Selfie>()
+                    .Where(i => i.WookieId == x.WookieId).Count()
+                });
+
+                if (retour is null) return this.BadRequest("Problem request."); ;
+
+                return this.Ok(retour);
+            }
+
+            if (id < 0 ) return this.BadRequest("id > 0 && required");
 
             var wookie = _unitOfWork.Repository<Wookie>().Where(x => x.Id == id).FirstOrDefault();
             // eviter la récurcivité infinie du wookie dans le selfie et du selfie dans le wookie
@@ -93,8 +111,7 @@ namespace SelfieAWookieApi.Controllers
                 Name = wookie.Name,
             };
 
-            var model = _unitOfWork.Repository<Selfie>()
-                .Where(x=> x.WookieId == id).Select(item => new SelfieDTOComplete() { 
+                var item = model.Where(x=> x.WookieId == id).Select(item => new SelfieDTOComplete() { 
                 Id = item.Id,
                 Title = item.Title,
                 ImagePath = item.ImagePath,
@@ -102,9 +119,9 @@ namespace SelfieAWookieApi.Controllers
                 Wookie = wookieDTO
                 }).ToList();
 
-            if (model is null) return this.BadRequest("Problem request.");
+            if (item is null) return this.BadRequest("Problem request.");
 
-            return this.Ok(model);
+            return this.Ok(item);
         }
         #endregion
 
