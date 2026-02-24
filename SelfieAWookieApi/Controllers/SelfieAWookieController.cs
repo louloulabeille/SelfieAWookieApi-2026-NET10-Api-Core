@@ -72,7 +72,7 @@ namespace SelfieAWookieApi.Controllers
             selfie.Id = retour.Id;
 
             //on ne le met en place pour le moment sinon la base va être pourrie
-            //_unitOfWork.SaveChanges();
+            _unitOfWork.SaveChanges();
             return Ok(selfie);
         }
         #endregion
