@@ -43,7 +43,8 @@ namespace SelfieAWookie.Core.Selfies.Infrastructure.Repository
             Dispose(true);
             GC.SuppressFinalize(this);
         }
-
+        // méthode pour récupérer tous les selfies de la base de données
+        // null
         public IEnumerable<Selfie> GetAll()
         {
             return _context.Selfies.Include(item => item.Wookie).Select(item=> 
@@ -60,6 +61,25 @@ namespace SelfieAWookie.Core.Selfies.Infrastructure.Repository
                         Selfies = item.Wookie.Selfies,
                     }
             });
+        }
+
+        // méthode pour récupérer tous les selfies d'un wookie spécifique de la base de données
+        public IEnumerable<Selfie> GetAll(int id)
+        {
+            return _context.Selfies.Where(item => item.WookieId == id).Include(item => item.Wookie).Select(item =>
+                new Selfie()
+                {
+                    Id = item.Id,
+                    Title = item.Title,
+                    ImagePath = item.ImagePath,
+                    WookieId = item.WookieId,
+                    Wookie = new Wookie()
+                    {
+                        Id      = item.Wookie!.Id,
+                        Name    = item.Wookie.Name,
+                        Selfies = item.Wookie.Selfies,
+                    }
+                });
         }
 
         // méthode pour ajouter un selfie à la base de données

@@ -108,6 +108,26 @@ namespace SelfieAWookieApi.Controllers
             return result;
         }
 
+        [HttpGet]
+        public IActionResult GetAll(int id)
+        {
+            IActionResult result = this.BadRequest("Error request get Selfie by id.");
+
+            if (id <= 0) return this.BadRequest("Id > 0 && required"); 
+
+            var model = _repository.GetAll(id).Select(item=> new SelfieDTOComplete() {
+                Id = item.Id,
+                Title = item.Title,
+                ImagePath = item.ImagePath,
+                WookieId = item.WookieId,
+                Wookie = item.Wookie
+            });
+
+            if (model != null) result = this.Ok(model);
+
+            return result;
+        }
+
         #endregion
 
     }
