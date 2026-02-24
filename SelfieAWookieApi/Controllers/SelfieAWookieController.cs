@@ -114,9 +114,12 @@ namespace SelfieAWookieApi.Controllers
         {
             IActionResult result = this.BadRequest("Error request get Selfie by id or not.");
 
-            if (id is null)
+            //var param = this.Request.Query["id"].ToString();
+            //var param = this.Response
+
+            if (id is null || id == 0)
             {
-                var query = _repository.GetAll().Select(item => new SelfieDTO()
+                var query = _repository.GetAll(null).Select(item => new SelfieDTO()
                 {
                     Title = item.Title,
                     WookieId = item.WookieId,
@@ -128,7 +131,7 @@ namespace SelfieAWookieApi.Controllers
                     : this.BadRequest("Erreur de remonter des données ");
             }
 
-            if (id.Value <= 0) return this.BadRequest("Id > 0 && required"); 
+            if (id.Value < 0) return this.BadRequest("Id >= 0 && required"); 
 
             var model = _repository.GetAll(id.Value).Select(item=> new SelfieDTOComplete() {
                 Id = item.Id,
