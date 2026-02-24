@@ -38,7 +38,7 @@ namespace SelfieAWookie.Core.Selfies.Infrastructure.Repository
 
         public virtual IEnumerable<T> GetAll()
         {   
-           return _context.Set<T>().ToList<T>();
+           return _context.Set<T>().ToList();
         }
 
         public virtual T? GetById(int id)

@@ -14,7 +14,7 @@ namespace SelfieAWookie.Core.Selfies.Infrastructure.UnitOfWork
         #region private fields
         private readonly SelfieAWookieDbContext _context;
         private bool _disposed = false;
-        private Dictionary<Type, object> _repositories = new Dictionary<Type, object>();
+        private readonly Dictionary<Type, object> _repositories = new();
         #endregion
 
         #region constructors

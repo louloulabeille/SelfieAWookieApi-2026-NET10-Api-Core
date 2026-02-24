@@ -99,6 +99,33 @@ namespace SelfieTestUnitaire
             Assert.IsType<SelfieDTOComplete>(addedSelfieDTO); // Vérifie que le type du résultat est SelfieDTOComplete
             Assert.Equal(newSelfie.Title, addedSelfieDTO!.Title); // Vérifie que le titre du selfie ajouté correspond à celui de newSelfie
         }
+
+        [Fact]
+        public void ShouldReturnGetAllSelfieForOneWookie()
+        {
+            //Arrange
+            //Tout est fait par EntityInMemory très facile à mettre en place :)
+            var controller = new SelfieAWookieController(_context);
+
+            //Act
+            controller.AddSelfie(new SelfieDTOComplete
+            {
+                Id = 3,
+                Title = "Selfie 3",
+                ImagePath = "path/to/image3.jpg",
+                WookieId = 1,
+                Wookie = null
+            });
+            var result = controller.GetAll(1);
+            var okResult = result as OkObjectResult;
+            IEnumerable<SelfieDTOComplete>? selfies = okResult!.Value as IEnumerable<SelfieDTOComplete>;
+
+            //Assert
+            Assert.NotNull(okResult);
+            Assert.NotNull(selfies);
+            Assert.Equal(selfies?.Count(), 2); // Vérifie que la collection contient exactement 1 élément
+
+        }
         #endregion
     }
 }

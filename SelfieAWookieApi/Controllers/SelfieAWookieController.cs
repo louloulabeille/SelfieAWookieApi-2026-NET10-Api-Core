@@ -66,7 +66,11 @@ namespace SelfieAWookieApi.Controllers
                 Title = selfie.Title!,
                 ImagePath = selfie.ImagePath,
                 WookieId = selfie.WookieId,
-                Wookie = selfie.Wookie
+                // gestion du wookie lors de l'ajout si c'est son premier message
+                Wookie = selfie.Wookie is not null ? new Wookie() { 
+                    Id = selfie.Wookie.Id,
+                    Name = selfie.Wookie.Name
+                    } : null
             });
 
             selfie.Id = retour.Id;
@@ -74,6 +78,33 @@ namespace SelfieAWookieApi.Controllers
             //on ne le met en place pour le moment sinon la base va être pourrie
             _unitOfWork.SaveChanges();
             return Ok(selfie);
+        }
+
+        [HttpGet]
+        public IActionResult GetAll(int id)
+        {
+            if (id <= 0 ) return this.BadRequest("id > 0 && required");
+
+            var wookie = _unitOfWork.Repository<Wookie>().Where(x => x.Id == id).FirstOrDefault();
+            // eviter la récurcivité infinie du wookie dans le selfie et du selfie dans le wookie
+            WookieDTONoSelfie wookieDTO = new () 
+            {
+                Id = wookie!.Id,
+                Name = wookie.Name,
+            };
+
+            var model = _unitOfWork.Repository<Selfie>()
+                .Where(x=> x.WookieId == id).Select(item => new SelfieDTOComplete() { 
+                Id = item.Id,
+                Title = item.Title,
+                ImagePath = item.ImagePath,
+                WookieId = item.WookieId,
+                Wookie = wookieDTO
+                }).ToList();
+
+            if (model is null) return this.BadRequest("Problem request.");
+
+            return this.Ok(model);
         }
         #endregion
 

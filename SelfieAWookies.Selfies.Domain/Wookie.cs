@@ -12,7 +12,7 @@ namespace SelfieAWookies.Selfies.Domain
         public int Id { get; set; }
         public required string Name { get; set; }
 
-       // [JsonIgnore]    // ignore la serialization de cette propriété
+        //[JsonIgnore]    // ignore la serialization de cette propriété
         public List<Selfie>? Selfies { get; set; }
 
         #endregion

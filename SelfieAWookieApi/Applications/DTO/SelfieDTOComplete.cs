@@ -9,7 +9,7 @@ namespace SelfieAWookieApi.Applications.DTO
         public required string? Title { get; set; }
         public string? ImagePath { get; set; }
         public int WookieId { get; set; }
-        public Wookie? Wookie { get; set; }
+        public WookieDTONoSelfie? Wookie { get; set; }
 
         #endregion
     }
