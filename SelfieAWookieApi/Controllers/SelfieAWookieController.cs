@@ -9,6 +9,7 @@ using SelfieAWookie.Core.Selfies.Interface.UnitOfWork;
 using SelfieAWookieApi.Applications.DTO;
 using SelfieAWookies.Selfies.Domain;
 using System.Data;
+using System.Reflection.Metadata;
 
 namespace SelfieAWookieApi.Controllers
 {
@@ -41,15 +42,16 @@ namespace SelfieAWookieApi.Controllers
         [HttpGet("GetAll")]
         public IActionResult GetAll()
         {
-            var item = _unitOfWork.Repository<Selfie>().GetAll()
+            var model = _unitOfWork.Repository<Selfie>().GetAll()
                 .Select(x=> new SelfieDTO{ 
                 Title = x.Title,
                 WookieId = x.WookieId,
                 NbSelfieFromWookie = _unitOfWork.Repository<Selfie>().Where(i=>i.WookieId == x.WookieId).Count()
                 });
+            
+            if (model is null) return this.BadRequest("Problem request.");;
 
-
-            return this.Ok(item);
+            return this.Ok(model);
 
         }
 
@@ -61,7 +63,7 @@ namespace SelfieAWookieApi.Controllers
             var retour = _unitOfWork.Repository<Selfie>().Add(new Selfie()
             {
                 Id = selfie.Id,
-                Title = selfie.Title,
+                Title = selfie.Title!,
                 ImagePath = selfie.ImagePath,
                 WookieId = selfie.WookieId,
                 Wookie = selfie.Wookie
