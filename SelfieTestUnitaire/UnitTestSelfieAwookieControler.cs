@@ -107,7 +107,7 @@ namespace SelfieTestUnitaire
             var controller = new SelfieAWookieController(repository);
 
             //Act
-            var result = controller.GetAll();
+            var result = controller.GetAll(null);
             var okResult = result as OkObjectResult; // Cast du résultat en OkObjectResult
             IEnumerable<SelfieDTO>? selfiesDTO = okResult!.Value as IEnumerable<SelfieDTO>; // Cast de la valeur du résultat en IEnumerable<Selfie>
 

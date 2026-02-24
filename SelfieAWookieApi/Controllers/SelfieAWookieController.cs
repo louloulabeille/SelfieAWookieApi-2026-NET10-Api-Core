@@ -38,16 +38,16 @@ namespace SelfieAWookieApi.Controllers
         #endregion
 
         #region Public Methods
-
-        [HttpGet("GetAll")]
+        
+        /*[HttpGet("GetAll")]
         public IActionResult GetAll()
-        {
+        {*/
             //return this.StatusCode(StatusCodes.Status202Accepted);
             //return this.BadRequest("This is a bad request example");
 
             //return this.Ok(_context.Selfies.ToList()); 
 
-            if (_repository == null) return this.NotFound("Aucun enregistrement trouvé");
+            //if (_repository == null) return this.NotFound("Aucun enregistrement trouvé");
             /*
             var query = _context.Selfies.Include(x => x.Wookie).Select(
                 (x)=>
@@ -61,7 +61,7 @@ namespace SelfieAWookieApi.Controllers
                     }
                 ).ToList();
             */
-            var query = _repository.GetAll().Select(item => new SelfieDTO()
+            /*var query = _repository.GetAll().Select(item => new SelfieDTO()
             {
                 Title = item.Title,
                 WookieId = item.WookieId,
@@ -70,7 +70,7 @@ namespace SelfieAWookieApi.Controllers
 
 
             return query is IEnumerable<SelfieDTO> and not null ? Ok(query)
-                : this.BadRequest("Erreur de remonter des données ");
+                : this.BadRequest("Erreur de remonter des données ");*/
             /*
             var query = from selfie in _context.Selfies
                         join wookie in _context.Wookies on selfie.WookieId equals wookie.Id
@@ -83,7 +83,8 @@ namespace SelfieAWookieApi.Controllers
                             Wookie = wookie
                         };
             */
-        }
+        //}
+        
 
         [HttpPost("Add-Selfie")]
         public IActionResult Add(SelfieDTOComplete selfie)
@@ -109,13 +110,27 @@ namespace SelfieAWookieApi.Controllers
         }
 
         [HttpGet]
-        public IActionResult GetAll(int id)
+        public IActionResult GetAll([FromQuery] int? id)
         {
-            IActionResult result = this.BadRequest("Error request get Selfie by id.");
+            IActionResult result = this.BadRequest("Error request get Selfie by id or not.");
 
-            if (id <= 0) return this.BadRequest("Id > 0 && required"); 
+            if (id is null)
+            {
+                var query = _repository.GetAll().Select(item => new SelfieDTO()
+                {
+                    Title = item.Title,
+                    WookieId = item.WookieId,
+                    NbSelfieFromWookie = item.Wookie?.Selfies?.Count
+                });
 
-            var model = _repository.GetAll(id).Select(item=> new SelfieDTOComplete() {
+
+                return query is IEnumerable<SelfieDTO> and not null ? Ok(query)
+                    : this.BadRequest("Erreur de remonter des données ");
+            }
+
+            if (id.Value <= 0) return this.BadRequest("Id > 0 && required"); 
+
+            var model = _repository.GetAll(id.Value).Select(item=> new SelfieDTOComplete() {
                 Id = item.Id,
                 Title = item.Title,
                 ImagePath = item.ImagePath,

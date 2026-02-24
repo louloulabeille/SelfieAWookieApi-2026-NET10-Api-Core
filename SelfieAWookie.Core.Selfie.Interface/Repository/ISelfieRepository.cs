@@ -8,9 +8,8 @@ namespace SelfieAWookie.Core.Selfies.Interface.Repository
 {
     public interface ISelfieRepository : IDisposable, IRepository
     {
-        public IEnumerable<Selfie> GetAll();
         public Selfie Add(Selfie selfie);
-        public IEnumerable<Selfie> GetAll(int id);
+        public IEnumerable<Selfie> GetAll(int? id);
 
     }
 }

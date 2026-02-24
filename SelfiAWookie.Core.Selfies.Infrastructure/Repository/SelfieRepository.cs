@@ -45,7 +45,7 @@ namespace SelfieAWookie.Core.Selfies.Infrastructure.Repository
         }
         // méthode pour récupérer tous les selfies de la base de données
         // null
-        public IEnumerable<Selfie> GetAll()
+        private IEnumerable<Selfie> GetAll()
         {
             return _context.Selfies.Include(item => item.Wookie).Select(item=> 
                 new Selfie()
@@ -64,9 +64,12 @@ namespace SelfieAWookie.Core.Selfies.Infrastructure.Repository
         }
 
         // méthode pour récupérer tous les selfies d'un wookie spécifique de la base de données
-        public IEnumerable<Selfie> GetAll(int id)
+        public IEnumerable<Selfie> GetAll(int? id)
         {
-            return _context.Selfies.Where(item => item.WookieId == id).Include(item => item.Wookie).Select(item =>
+            if (id is null) return GetAll();
+
+            return _context.Selfies.Where(item => item.WookieId == id)
+                .Include(item => item.Wookie).Select(item =>
                 new Selfie()
                 {
                     Id = item.Id,
