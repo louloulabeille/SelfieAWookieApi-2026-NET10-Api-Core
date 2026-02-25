@@ -1,5 +1,8 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Moq;
 using SelfieAWookie.Core.Selfies.Infrastructure;
@@ -18,6 +21,7 @@ namespace SelfieTestUnitaire
         #region private fields
         // context InMemorry pour les tests unitaires
         private readonly SelfieContextMemory _context;
+        private readonly IWebHostEnvironment _host;
         #endregion
 
         #region constructeur
@@ -26,6 +30,11 @@ namespace SelfieTestUnitaire
             // initialisation du contexte de base de données en mémoire et ajout de données de test
             _context = new SelfieContextMemory();
             this.Init();
+
+            // initialisation de l'environnement d'hébergement pour les tests unitaires
+            var mockHost = new Mock<IWebHostEnvironment>();
+            mockHost.Setup(m => m.ContentRootPath).Returns(@"C:\Users\loulo\OneDrive\Bureau\Cours\web-Api\SelfieAWookieApi\SelfieAWookieApi\Test");
+            _host = mockHost.Object;
         }
         #endregion
 
@@ -104,7 +113,7 @@ namespace SelfieTestUnitaire
             ISelfieRepository repository = new SelfieRepository(_context);
 
             //Données à retourner
-            var controller = new SelfieAWookieController(repository);
+            var controller = new SelfieAWookieController(repository, _host);
 
             //Act
             var result = controller.GetAll(null);
@@ -127,7 +136,7 @@ namespace SelfieTestUnitaire
             //Arrange
             ISelfieRepository repository = new SelfieRepository(_context);
             //Data
-            var controller = new SelfieAWookieController(repository);
+            var controller = new SelfieAWookieController(repository, _host);
 
             //Act
             SelfieDTOComplete ajoutSelfie = new ()
@@ -156,7 +165,7 @@ namespace SelfieTestUnitaire
             ISelfieRepository repository = new SelfieRepository(_context);
 
             //Données à retourner
-            var controller = new SelfieAWookieController(repository);
+            var controller = new SelfieAWookieController(repository, _host);
 
             //Act
             controller.Add(new SelfieDTOComplete
@@ -176,6 +185,17 @@ namespace SelfieTestUnitaire
             Assert.NotNull(selfies);
             Assert.Equal(selfies?.Count(), 2);
 
+        }
+
+        [Fact]
+        public void ShouldReturnGetPicture()
+        {
+            //Arrange
+            var controller = new SelfieAWookieController(new SelfieRepository(_context), _host);
+            var IFormFile img = new FormFile("data",0,0,"test.jpeg");
+
+            //Act
+            var result = controller.GetPicture(1);
         }
         #endregion
     }

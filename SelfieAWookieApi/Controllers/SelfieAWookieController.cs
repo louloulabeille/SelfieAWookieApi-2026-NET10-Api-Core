@@ -151,7 +151,7 @@ namespace SelfieAWookieApi.Controllers
 
         [Route("Photos")]
         [HttpPost]
-        public async Task<IActionResult> AddPhoto(IFormFile img)
+        public async Task<IActionResult> AddPicture(IFormFile img)
         {
             /*
             using var stream = new StreamReader(Request.Body);
@@ -171,7 +171,7 @@ namespace SelfieAWookieApi.Controllers
             await img.CopyToAsync(stream);
 
 
-            return this.Ok("Ok" + Task.CurrentId.ToString());
+            return this.Ok(img.FileName);
         }
         #endregion
 
