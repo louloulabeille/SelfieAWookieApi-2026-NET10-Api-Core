@@ -1,5 +1,7 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Moq;
 using SelfieAWookie.Core.Selfies.Infrastructure;
@@ -19,6 +21,7 @@ namespace SelfieTestUnitaire
         #region private fields
         // context InMemorry pour les tests unitaires
         private readonly SelfieContextMemory _context;
+        private readonly IHostEnvironment _host;
         #endregion
 
         #region constructeur
@@ -26,6 +29,20 @@ namespace SelfieTestUnitaire
         {
             // initialisation du contexte de base de données en mémoire et ajout de données de test
             _context = new SelfieContextMemory();
+            InitTest();
+
+            // initialisation de valeur environnementale du projet pour les tests unitaires
+            Mock<IHostEnvironment> mockHost = new Mock<IHostEnvironment>();
+            mockHost.Setup(m =>m.ContentRootPath).Returns(@"C:\Users\loulo\OneDrive\Bureau\Cours\web-Api\SelfieAWookieApi\SelfieAWookieApi\Test");
+            _host = mockHost.Object;
+
+        }
+        #endregion
+        #region private methods
+        private void InitTest()
+        {
+            
+            //initialisation de la base inMemorie avec des données de test
             _context.Selfies.Add(new Selfie
             {
                 Id = 1,
@@ -51,8 +68,12 @@ namespace SelfieTestUnitaire
                 }
             });
             _context.SaveChanges();
+
         }
+
         #endregion
+
+
 
         #region tests unitaires
         [Fact]
@@ -60,12 +81,13 @@ namespace SelfieTestUnitaire
         {
             //Arrange
             /* utilisation du mock - utiliser InMemory */
+            
 
             //Données à retourner
-            var controller = new SelfieAWookieController(_context);
+            var controller = new SelfieAWookieController(_context, _host);
 
             //Act
-            var result = controller.GetAll();
+            var result = controller.GetAll(null);
             var okResult = result as OkObjectResult; // Cast du résultat en OkObjectResult
             IEnumerable<SelfieDTO>? selfiesDTO = okResult!.Value as IEnumerable<SelfieDTO>; // Cast de la valeur du résultat en IEnumerable<Selfie>
 
@@ -80,7 +102,7 @@ namespace SelfieTestUnitaire
         public void ShouldAddSelfie()
         {
             //Arrange
-            var controller = new SelfieAWookieController(_context);
+            var controller = new SelfieAWookieController(_context, _host);
             var newSelfie = new SelfieDTOComplete
             {
                 Id = 3,
@@ -105,7 +127,7 @@ namespace SelfieTestUnitaire
         {
             //Arrange
             //Tout est fait par EntityInMemory très facile à mettre en place :)
-            var controller = new SelfieAWookieController(_context);
+            var controller = new SelfieAWookieController(_context, _host);
 
             //Act
             controller.AddSelfie(new SelfieDTOComplete
@@ -125,6 +147,22 @@ namespace SelfieTestUnitaire
             Assert.NotNull(selfies);
             Assert.Equal(selfies?.Count(), 2); // Vérifie que la collection contient exactement 1 élément
 
+        }
+
+        [Fact]
+        public void ShouldReturnGetpicture()
+        {
+            //Arrange
+            var img = new FormFile(Stream.Null, 0, 0, "Data", "test.jpg");
+            var controller = new SelfieAWookieController(_context, _host);
+
+            //Act
+            var result = controller.GetPicture(img);
+            var okResult = result?.Result as OkObjectResult; // Cast du résultat en OkObjectResult
+
+            //Assert
+            Assert.NotNull(okResult); // Vérifie que le résultat n'est pas null
+            Assert.Equal("test.jpg", okResult.Value); // Vérifie que le nom du fichier retourné correspond à celui de l'image test
         }
         #endregion
     }
