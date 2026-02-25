@@ -26,7 +26,7 @@ namespace SelfieAWookieApi.Controllers
             _repository = repository;
         }
         */
-        public SelfieAWookieController(SelfieAWookieDbContext context, IHostEnvironment host)
+        public SelfieAWookieController(SelfieAWookieDbContext context, IWebHostEnvironment host)
         {
             _unitOfWork = new UnitOfWork(context);
             _host = host;
@@ -37,7 +37,7 @@ namespace SelfieAWookieApi.Controllers
         #region private fields
         //private readonly ILogger<SelfieAWookieController> _logger = logger ;
         private readonly IUnitOfWork _unitOfWork;
-        private readonly IHostEnvironment _host;
+        private readonly IWebHostEnvironment _host;
         #endregion
 
         #region Public Methods

@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Hosting;
@@ -21,7 +22,7 @@ namespace SelfieTestUnitaire
         #region private fields
         // context InMemorry pour les tests unitaires
         private readonly SelfieContextMemory _context;
-        private readonly IHostEnvironment _host;
+        private readonly IWebHostEnvironment _host;
         #endregion
 
         #region constructeur
