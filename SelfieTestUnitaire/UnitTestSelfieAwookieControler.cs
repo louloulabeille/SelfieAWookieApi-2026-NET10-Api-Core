@@ -197,10 +197,13 @@ namespace SelfieTestUnitaire
             //Act
             var result = controller.GetPicture(img);
             var okResult = result?.Result as OkObjectResult; // Cast du résultat en OkObjectResult
+            var picture = okResult?.Value as Picture;
 
             //Arrange
             Assert.NotNull(okResult);
-            Assert.Equal("test.jpeg", okResult.Value);
+            Assert.IsType<Picture>(okResult.Value);
+            Assert.NotNull(picture);
+            Assert.True(picture?.Url.EndsWith("test.jpeg"));
 
         }
         #endregion

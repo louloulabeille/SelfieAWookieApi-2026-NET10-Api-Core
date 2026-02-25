@@ -12,7 +12,7 @@
         public int WookieId { get; set; }
         public Wookie? Wookie { get; set; }
 
-        public Guid? PictureId { get; set; }
+        public int? PictureId { get; set; }
         public Picture? Picture { get; set; }
 
         #endregion

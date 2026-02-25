@@ -11,8 +11,8 @@ using SelfieAWookie.Core.Selfies.Infrastructure;
 namespace SelfieAWookie.Core.Selfies.Infrastructure.MigrationsBase
 {
     [DbContext(typeof(SelfieAWookieDbContext))]
-    [Migration("20260219100917_modificationModelSelfie")]
-    partial class modificationModelSelfie
+    [Migration("20260225122229_ReInitBase")]
+    partial class ReInitBase
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -23,6 +23,23 @@ namespace SelfieAWookie.Core.Selfies.Infrastructure.MigrationsBase
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
+
+            modelBuilder.Entity("SelfieAWookies.Selfies.Domain.Picture", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Url")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Pictures");
+                });
 
             modelBuilder.Entity("SelfieAWookies.Selfies.Domain.Selfie", b =>
                 {
@@ -36,6 +53,9 @@ namespace SelfieAWookie.Core.Selfies.Infrastructure.MigrationsBase
                         .HasMaxLength(250)
                         .HasColumnType("character varying(250)");
 
+                    b.Property<int?>("PictureId")
+                        .HasColumnType("integer");
+
                     b.Property<string>("Title")
                         .IsRequired()
                         .HasColumnType("text");
@@ -44,6 +64,8 @@ namespace SelfieAWookie.Core.Selfies.Infrastructure.MigrationsBase
                         .HasColumnType("integer");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("PictureId");
 
                     b.HasIndex("WookieId");
 
@@ -70,13 +92,24 @@ namespace SelfieAWookie.Core.Selfies.Infrastructure.MigrationsBase
 
             modelBuilder.Entity("SelfieAWookies.Selfies.Domain.Selfie", b =>
                 {
+                    b.HasOne("SelfieAWookies.Selfies.Domain.Picture", "Picture")
+                        .WithMany("Selfies")
+                        .HasForeignKey("PictureId");
+
                     b.HasOne("SelfieAWookies.Selfies.Domain.Wookie", "Wookie")
                         .WithMany("Selfies")
                         .HasForeignKey("WookieId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.Navigation("Picture");
+
                     b.Navigation("Wookie");
+                });
+
+            modelBuilder.Entity("SelfieAWookies.Selfies.Domain.Picture", b =>
+                {
+                    b.Navigation("Selfies");
                 });
 
             modelBuilder.Entity("SelfieAWookies.Selfies.Domain.Wookie", b =>

@@ -151,6 +151,7 @@ namespace SelfieAWookieApi.Controllers
 
         [Route("Photos")]
         [HttpPost]
+        // ajout d'une images dans la base de données
         public async Task<IActionResult> GetPicture(IFormFile img)
         {
             /*
@@ -170,8 +171,12 @@ namespace SelfieAWookieApi.Controllers
             using var stream = new FileStream(filePath,FileMode.OpenOrCreate);
             await img.CopyToAsync(stream);
 
+            var picture = _repository.AddPicture(new Picture() { 
+                Url = filePath
+            });
 
-            return this.Ok(img.FileName);
+            _repository.UnitOfWork.SaveChanges();
+            return this.Ok(picture);
         }
         #endregion
 

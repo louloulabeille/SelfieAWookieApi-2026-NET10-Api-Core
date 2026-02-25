@@ -91,6 +91,13 @@ namespace SelfieAWookie.Core.Selfies.Infrastructure.Repository
             return _context.Selfies.Add(selfie).Entity;
             
         }
+
+        // méthode ajout d'une photo dans la base de données
+        public Picture AddPicture(Picture picture)
+        {
+            return _context.Pictures.Add(picture).Entity;
+        }
+
         #endregion
 
         #region methods asynchrone
@@ -111,6 +118,7 @@ namespace SelfieAWookie.Core.Selfies.Infrastructure.Repository
                     }
                 }).ToListAsync();
         }
+
 
         #endregion
 

@@ -10,6 +10,7 @@ namespace SelfieAWookie.Core.Selfies.Interface.Repository
     {
         public Selfie Add(Selfie selfie);
         public IEnumerable<Selfie> GetAll(int? id);
+        public Picture AddPicture(Picture picture);
 
     }
 }
