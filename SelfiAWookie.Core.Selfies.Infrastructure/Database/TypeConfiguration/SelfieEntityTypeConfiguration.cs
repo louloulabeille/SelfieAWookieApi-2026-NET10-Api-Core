@@ -20,6 +20,7 @@ namespace SelfieAWookie.Core.Selfies.Infrastructure.Database.TypeConfiguration
             builder.Property(x => x.Title).IsRequired();
 
             builder.HasOne(x => x.Wookie).WithMany(x => x.Selfies);
+            builder.HasOne(x => x.Picture).WithMany(x => x.Selfies);
 
             builder.Property(x => x.ImagePath).IsRequired(false).HasMaxLength(250);
         }

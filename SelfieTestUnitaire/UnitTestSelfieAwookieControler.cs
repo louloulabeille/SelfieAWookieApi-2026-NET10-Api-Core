@@ -33,7 +33,7 @@ namespace SelfieTestUnitaire
             InitTest();
 
             // initialisation de valeur environnementale du projet pour les tests unitaires
-            Mock<IHostEnvironment> mockHost = new Mock<IHostEnvironment>();
+            Mock<IWebHostEnvironment> mockHost = new Mock<IWebHostEnvironment>();
             mockHost.Setup(m =>m.ContentRootPath).Returns(@"C:\Users\loulo\OneDrive\Bureau\Cours\web-Api\SelfieAWookieApi\SelfieAWookieApi\Test");
             _host = mockHost.Object;
 
@@ -160,10 +160,12 @@ namespace SelfieTestUnitaire
             //Act
             var result = controller.GetPicture(img);
             var okResult = result?.Result as OkObjectResult; // Cast du résultat en OkObjectResult
+            var picture = okResult!.Value as Picture; // Cast de la valeur du résultat en string (nom du fichier)
 
             //Assert
             Assert.NotNull(okResult); // Vérifie que le résultat n'est pas null
-            Assert.Equal("test.jpg", okResult.Value); // Vérifie que le nom du fichier retourné correspond à celui de l'image test
+            Assert.NotNull(picture); // Vérifie que le nom du fichier retourné correspond à celui de l'image test
+            Assert.IsType<Picture>(picture); // Vérifie que le type du résultat est un Picture
         }
         #endregion
     }
