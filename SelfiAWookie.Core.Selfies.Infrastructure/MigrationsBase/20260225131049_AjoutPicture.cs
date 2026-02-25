@@ -6,13 +6,13 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace SelfieAWookie.Core.Selfies.Infrastructure.MigrationsBase
 {
     /// <inheritdoc />
-    public partial class ReInitBase : Migration
+    public partial class AjoutPicture : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "Pictures",
+                name: "Picture",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "integer", nullable: false)
@@ -21,7 +21,7 @@ namespace SelfieAWookie.Core.Selfies.Infrastructure.MigrationsBase
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Pictures", x => x.Id);
+                    table.PrimaryKey("PK_Picture", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -52,9 +52,9 @@ namespace SelfieAWookie.Core.Selfies.Infrastructure.MigrationsBase
                 {
                     table.PrimaryKey("PK_Selfie", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Selfie_Pictures_PictureId",
+                        name: "FK_Selfie_Picture_PictureId",
                         column: x => x.PictureId,
-                        principalTable: "Pictures",
+                        principalTable: "Picture",
                         principalColumn: "Id");
                     table.ForeignKey(
                         name: "FK_Selfie_Wookie_WookieId",
@@ -82,7 +82,7 @@ namespace SelfieAWookie.Core.Selfies.Infrastructure.MigrationsBase
                 name: "Selfie");
 
             migrationBuilder.DropTable(
-                name: "Pictures");
+                name: "Picture");
 
             migrationBuilder.DropTable(
                 name: "Wookie");

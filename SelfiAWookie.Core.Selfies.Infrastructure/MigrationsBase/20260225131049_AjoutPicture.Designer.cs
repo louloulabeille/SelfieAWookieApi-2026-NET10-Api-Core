@@ -11,8 +11,8 @@ using SelfieAWookie.Core.Selfies.Infrastructure;
 namespace SelfieAWookie.Core.Selfies.Infrastructure.MigrationsBase
 {
     [DbContext(typeof(SelfieAWookieDbContext))]
-    [Migration("20260225122229_ReInitBase")]
-    partial class ReInitBase
+    [Migration("20260225131049_AjoutPicture")]
+    partial class AjoutPicture
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -38,7 +38,7 @@ namespace SelfieAWookie.Core.Selfies.Infrastructure.MigrationsBase
 
                     b.HasKey("Id");
 
-                    b.ToTable("Pictures");
+                    b.ToTable("Picture", (string)null);
                 });
 
             modelBuilder.Entity("SelfieAWookies.Selfies.Domain.Selfie", b =>

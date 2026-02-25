@@ -35,7 +35,7 @@ namespace SelfieAWookie.Core.Selfies.Infrastructure.MigrationsBase
 
                     b.HasKey("Id");
 
-                    b.ToTable("Pictures");
+                    b.ToTable("Picture", (string)null);
                 });
 
             modelBuilder.Entity("SelfieAWookies.Selfies.Domain.Selfie", b =>
