@@ -45,13 +45,11 @@ namespace SelfieTestUnitaire
             //initialisation de la base inMemorie avec des données de test
             _context.Wookies.Add(new Wookie
             {
-                Id = 1,
                 Name = "Wookie 1"
             });
 
             _context.Wookies.Add(new Wookie
             {
-                Id = 2,
                 Name = "Wookie 2"
             });
 
@@ -129,7 +127,10 @@ namespace SelfieTestUnitaire
             var controller = new SelfieAWookieController(_context, _host);
 
             //Act
-
+            _context.Set<Wookie>().Add(new Wookie()
+            {
+                Name = "Wookie1"
+            });
             controller.AddSelfie(new SelfieDTOComplete
             {
                 Id = 3,
