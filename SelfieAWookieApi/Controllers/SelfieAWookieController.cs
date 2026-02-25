@@ -154,7 +154,7 @@ namespace SelfieAWookieApi.Controllers
         // ajout d'une images dans la base de données
         public async Task<IActionResult> GetPicture(IFormFile img)
         {
-            /*
+            /* lire le flux de données de la requete
             using var stream = new StreamReader(Request.Body);
             var result = await stream.ReadToEndAsync();
             */
