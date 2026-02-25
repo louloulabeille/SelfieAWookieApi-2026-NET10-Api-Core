@@ -147,7 +147,14 @@ namespace SelfieAWookieApi.Controllers
                 using var stream = new FileStream(filePath, FileMode.OpenOrCreate);
                 await img.CopyToAsync(stream);
 
-                return this.Ok(img.FileName);
+                var picture = _unitOfWork.Repository<Picture>().Add(new Picture()
+                {
+                    Url = filePath,
+                });
+
+                _unitOfWork.SaveChanges();
+
+                return this.Ok(picture);
             }
             catch (Exception e)
             {

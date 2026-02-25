@@ -8,7 +8,7 @@ namespace SelfieAWookies.Selfies.Domain
     {
         #region Properties
     
-            public Guid Id { get; set; }
+            public int Id { get; set; }
             public required string Url { get; set; }
             public List<Selfie>? Selfies { get; set; }
 
