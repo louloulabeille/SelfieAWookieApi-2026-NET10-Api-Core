@@ -22,6 +22,7 @@ namespace SelfieAWookie.Core.Selfies.Infrastructure
         #region dbSet
         public DbSet<Selfie> Selfies { get; set; }
         public DbSet<Wookie> Wookies { get; set; }
+        public DbSet<Picture> Pictures { get; set; }
         #endregion
 
         #region protected overrides
@@ -31,7 +32,8 @@ namespace SelfieAWookie.Core.Selfies.Infrastructure
 
             // Apply configurations entre les tables 
             modelBuilder.ApplyConfiguration(new SelfieEntityTypeConfiguration());
-            modelBuilder.ApplyConfiguration(new WookieEntityTypeConfiguration());  
+            modelBuilder.ApplyConfiguration(new WookieEntityTypeConfiguration());
+            modelBuilder.ApplyConfiguration(new PictureEntityTypeConfiguration());
 
             //la configuration on peut la faire directement ici
             /*modelBuilder.Entity<Selfie>()
