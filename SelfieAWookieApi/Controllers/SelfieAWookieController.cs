@@ -23,9 +23,10 @@ namespace SelfieAWookieApi.Controllers
             _repository = repository;
         }
         */
-        public SelfieAWookieController(ISelfieRepository repository)
+        public SelfieAWookieController(ISelfieRepository repository, IWebHostEnvironment webHost)
         {
             _repository = repository;
+            _webhost = webHost;
         }
         #endregion
 
@@ -34,59 +35,59 @@ namespace SelfieAWookieApi.Controllers
         //private readonly ILogger<SelfieAWookieController> _logger = logger ;
         //private readonly SelfieAWookieDbContext? _context;
         private readonly ISelfieRepository _repository;
-
+        private readonly IWebHostEnvironment _webhost;
         #endregion
 
         #region Public Methods
-        
+
         /*[HttpGet("GetAll")]
         public IActionResult GetAll()
         {*/
-            //return this.StatusCode(StatusCodes.Status202Accepted);
-            //return this.BadRequest("This is a bad request example");
+        //return this.StatusCode(StatusCodes.Status202Accepted);
+        //return this.BadRequest("This is a bad request example");
 
-            //return this.Ok(_context.Selfies.ToList()); 
+        //return this.Ok(_context.Selfies.ToList()); 
 
-            //if (_repository == null) return this.NotFound("Aucun enregistrement trouvé");
-            /*
-            var query = _context.Selfies.Include(x => x.Wookie).Select(
-                (x)=>
-                    new Selfie()
+        //if (_repository == null) return this.NotFound("Aucun enregistrement trouvé");
+        /*
+        var query = _context.Selfies.Include(x => x.Wookie).Select(
+            (x)=>
+                new Selfie()
+                {
+                    Id = x.Id,
+                    Title = x.Title,
+                    ImagePath = x.ImagePath,
+                    WookieId = x.WookieId,
+                    Wookie = x.Wookie
+                }
+            ).ToList();
+        */
+        /*var query = _repository.GetAll().Select(item => new SelfieDTO()
+        {
+            Title = item.Title,
+            WookieId = item.WookieId,
+            NbSelfieFromWookie = item.Wookie?.Selfies?.Count
+        });
+
+
+        return query is IEnumerable<SelfieDTO> and not null ? Ok(query)
+            : this.BadRequest("Erreur de remonter des données ");*/
+        /*
+        var query = from selfie in _context.Selfies
+                    join wookie in _context.Wookies on selfie.WookieId equals wookie.Id
+                    select new Selfie
                     {
-                        Id = x.Id,
-                        Title = x.Title,
-                        ImagePath = x.ImagePath,
-                        WookieId = x.WookieId,
-                        Wookie = x.Wookie
-                    }
-                ).ToList();
-            */
-            /*var query = _repository.GetAll().Select(item => new SelfieDTO()
-            {
-                Title = item.Title,
-                WookieId = item.WookieId,
-                NbSelfieFromWookie = item.Wookie?.Selfies?.Count
-            });
-
-
-            return query is IEnumerable<SelfieDTO> and not null ? Ok(query)
-                : this.BadRequest("Erreur de remonter des données ");*/
-            /*
-            var query = from selfie in _context.Selfies
-                        join wookie in _context.Wookies on selfie.WookieId equals wookie.Id
-                        select new Selfie
-                        {
-                            Id = selfie.Id,
-                            Title = selfie.Title,
-                            ImagePath = selfie.ImagePath,
-                            WookieId = selfie.WookieId,
-                            Wookie = wookie
-                        };
-            */
+                        Id = selfie.Id,
+                        Title = selfie.Title,
+                        ImagePath = selfie.ImagePath,
+                        WookieId = selfie.WookieId,
+                        Wookie = wookie
+                    };
+        */
         //}
         
-
-        [HttpPost("Add-Selfie")]
+        [Route("AddSelfie")]
+        [HttpPost]
         public IActionResult Add(SelfieDTOComplete selfie)
         {
             IActionResult result = this.BadRequest("Error request add Selfie.");
@@ -109,6 +110,8 @@ namespace SelfieAWookieApi.Controllers
             return result;
         }
 
+        //[HttpGet("Get-All")]
+        [Route("GetAll")]
         [HttpGet]
         public IActionResult GetAll([FromQuery] int? id)
         {
@@ -146,6 +149,30 @@ namespace SelfieAWookieApi.Controllers
             return result;
         }
 
+        [Route("Photos")]
+        [HttpPost]
+        public async Task<IActionResult> AddPhoto(IFormFile img)
+        {
+            /*
+            using var stream = new StreamReader(Request.Body);
+            var result = await stream.ReadToEndAsync();
+            */
+
+            string filePath = Path.Combine(_webhost.ContentRootPath,@"images\selfies");
+
+            if (!Directory.Exists(filePath))
+            {
+                Directory.CreateDirectory(filePath);
+            }
+
+            filePath = Path.Combine(filePath, img.FileName);
+
+            using var stream = new FileStream(filePath,FileMode.OpenOrCreate);
+            await img.CopyToAsync(stream);
+
+
+            return this.Ok("Ok" + Task.CurrentId.ToString());
+        }
         #endregion
 
     }
