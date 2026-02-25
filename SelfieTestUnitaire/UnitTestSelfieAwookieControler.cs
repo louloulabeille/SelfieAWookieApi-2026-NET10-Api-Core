@@ -192,10 +192,16 @@ namespace SelfieTestUnitaire
         {
             //Arrange
             var controller = new SelfieAWookieController(new SelfieRepository(_context), _host);
-            var IFormFile img = new FormFile("data",0,0,"test.jpeg");
+            var img = new FormFile(Stream.Null,0,0,"data","test.jpeg");
 
             //Act
-            var result = controller.GetPicture(1);
+            var result = controller.GetPicture(img);
+            var okResult = result?.Result as OkObjectResult; // Cast du résultat en OkObjectResult
+
+            //Arrange
+            Assert.NotNull(okResult);
+            Assert.Equal("test.jpeg", okResult.Value);
+
         }
         #endregion
     }

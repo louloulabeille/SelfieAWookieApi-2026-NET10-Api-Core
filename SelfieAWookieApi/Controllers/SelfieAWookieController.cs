@@ -151,7 +151,7 @@ namespace SelfieAWookieApi.Controllers
 
         [Route("Photos")]
         [HttpPost]
-        public async Task<IActionResult> AddPicture(IFormFile img)
+        public async Task<IActionResult> GetPicture(IFormFile img)
         {
             /*
             using var stream = new StreamReader(Request.Body);
