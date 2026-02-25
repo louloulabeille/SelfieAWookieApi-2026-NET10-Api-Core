@@ -23,6 +23,7 @@ namespace SelfieAWookie.Core.Selfies.Infrastructure
         #region dbSet
         public DbSet<Selfie> Selfies { get; set; }
         public DbSet<Wookie> Wookies { get; set; }
+        public DbSet<Picture> Pictures { get; set; }
         #endregion
 
         #region protected overrides

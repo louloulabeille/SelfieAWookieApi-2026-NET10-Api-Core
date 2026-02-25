@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using SelfieAWookie.Core.Selfies.Infrastructure;
@@ -11,9 +12,11 @@ using SelfieAWookie.Core.Selfies.Infrastructure;
 namespace SelfieAWookie.Core.Selfies.Infrastructure.MigrationsBase
 {
     [DbContext(typeof(SelfieAWookieDbContext))]
-    partial class SelfieAWookieDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260225094410_AjoutPicture")]
+    partial class AjoutPicture
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
