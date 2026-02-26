@@ -3,7 +3,9 @@
     <Project Path="SelfieTestUnitaire/SelfieTestUnitaire.csproj" Id="c58f037b-0597-44d0-80a5-1101c1e692b0" />
   </Folder>
   <Project Path="SelfiAWookie.Core.Selfies.Infrastructure/SelfieAWookie.Core.Selfies.Infrastructure.csproj" Id="3f73aa9d-21ec-402d-8846-27131c7eb8a3" />
-  <Project Path="SelfieAWookie.Core.Migrations/SelfieAWookie.Core.Migrations.csproj" Id="05af0419-8a6c-494e-a8e3-074d3cc3ff45" />
+  <Project Path="SelfieAWookie.Core.Migrations/SelfieAWookie.Core.Migrations.csproj" Id="05af0419-8a6c-494e-a8e3-074d3cc3ff45">
+    <Build Solution="Debug|*" Project="false" />
+  </Project>
   <Project Path="SelfieAWookie.Core.Selfie.Interface/SelfieAWookie.Core.Selfies.Interface.csproj" Id="80905629-f168-40ab-952a-0a5f34c77239" />
   <Project Path="SelfieAWookie.Core.Selfies.Framework/SelfieAWookie.Core.Framework.csproj" Id="6541e021-d470-4bf1-bfe4-c1091a73a4ed">
     <Build Solution="Debug|*" Project="false" />
