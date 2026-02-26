@@ -1,5 +1,5 @@
 using Microsoft.EntityFrameworkCore;
-using SelfieAWookie.Core.Selfies.Infrastructure;
+using SelfieAWookie.Core.Selfies.Infrastructure.Database;
 using SelfieAWookie.Core.Selfies.Infrastructure.Repository;
 using SelfieAWookie.Core.Selfies.Interface.Repository;
 using SelfieAWookieApi.Applications.ExtensionsMethods;

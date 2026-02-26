@@ -6,7 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace SelfieAWookie.Core.Selfies.Infrastructure
+namespace SelfieAWookie.Core.Selfies.Infrastructure.Database
 {
     public class SelfieAWookieDbContext : DbContext, IUnitOfWork
     {
