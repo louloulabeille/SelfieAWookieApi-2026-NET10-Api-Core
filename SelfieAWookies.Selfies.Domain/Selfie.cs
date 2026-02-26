@@ -15,6 +15,7 @@
         public int? PictureId { get; set; }
         public Picture? Picture { get; set; }
 
+        public string Description { get; set; } = string.Empty;
         #endregion
     }
 }

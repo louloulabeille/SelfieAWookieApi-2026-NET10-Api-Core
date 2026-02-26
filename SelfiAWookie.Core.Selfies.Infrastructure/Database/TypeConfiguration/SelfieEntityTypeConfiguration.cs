@@ -24,6 +24,7 @@ namespace SelfieAWookie.Core.Selfies.Infrastructure.Database.TypeConfiguration
             builder.HasOne(x => x.Picture).WithMany(x => x.Selfies);
 
             builder.Property(x => x.ImagePath).IsRequired(false).HasMaxLength(250);
+            builder.Property(x => x.Description).IsRequired(false);
         }
 
         #endregion
