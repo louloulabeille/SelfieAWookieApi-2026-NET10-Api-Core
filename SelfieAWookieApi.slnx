@@ -4,6 +4,7 @@
   </Folder>
   <Project Path="SelfiAWookie.Core.Selfies.Infrastructure/SelfieAWookie.Core.Selfies.Infrastructure.csproj" Id="3f73aa9d-21ec-402d-8846-27131c7eb8a3" />
   <Project Path="SelfieAWookie.Core.Selfie.Interface/SelfieAWookie.Core.Selfies.Interface.csproj" Id="80905629-f168-40ab-952a-0a5f34c77239" />
+  <Project Path="SelfieAWookie.Core.Selfies.Migrations/SelfieAWookie.Core.Selfies.Migrations.csproj" Id="96e3f28f-e88e-4a3c-97a3-046d61795ce8" />
   <Project Path="SelfieAWookieApi/SelfieAWookieApi.csproj" />
   <Project Path="SelfieAWookies.Selfies.Domain/SelfieAWookies.Selfies.Domain.csproj" Id="fff4788a-4f49-443b-b147-311b197b8f97" />
 </Solution>
