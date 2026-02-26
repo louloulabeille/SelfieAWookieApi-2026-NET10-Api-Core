@@ -1,4 +1,5 @@
-﻿using SelfieAWookie.Core.Selfies.Infrastructure.Repository;
+﻿using SelfieAWookie.Core.Selfies.Infrastructure.Database;
+using SelfieAWookie.Core.Selfies.Infrastructure.Repository;
 using SelfieAWookie.Core.Selfies.Interface.Repository;
 using SelfieAWookie.Core.Selfies.Interface.UnitOfWork;
 using SelfieAWookies.Selfies.Domain;

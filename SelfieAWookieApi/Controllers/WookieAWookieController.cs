@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using SelfieAWookie.Core.Selfies.Infrastructure;
+using SelfieAWookie.Core.Selfies.Infrastructure.Database;
 using SelfieAWookie.Core.Selfies.Infrastructure.Repository;
 using SelfieAWookie.Core.Selfies.Infrastructure.UnitOfWork;
 using SelfieAWookie.Core.Selfies.Interface.Repository;

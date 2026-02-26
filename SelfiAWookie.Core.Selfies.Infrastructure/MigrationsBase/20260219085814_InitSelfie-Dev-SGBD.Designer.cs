@@ -5,6 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using SelfieAWookie.Core.Selfies.Infrastructure;
+using SelfieAWookie.Core.Selfies.Infrastructure.Database;
 
 #nullable disable
 

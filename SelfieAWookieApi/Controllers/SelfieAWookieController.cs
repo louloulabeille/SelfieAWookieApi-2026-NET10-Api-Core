@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using SelfieAWookie.Core.Selfies.Infrastructure;
+using SelfieAWookie.Core.Selfies.Infrastructure.Database;
 using SelfieAWookie.Core.Selfies.Infrastructure.Repository;
 using SelfieAWookie.Core.Selfies.Infrastructure.UnitOfWork;
 using SelfieAWookie.Core.Selfies.Interface.Repository;
