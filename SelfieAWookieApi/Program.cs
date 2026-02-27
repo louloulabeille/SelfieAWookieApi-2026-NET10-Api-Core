@@ -23,7 +23,7 @@ builder.Services.AddSwaggerGen();
 #region CrossOrigin
 //ajout de la politique de cross origin pour autoriser les requetes depuis n'importe quelle origine
 // au niveau de l'application autant le mettre en place directement au niveau du serveur
-builder.Services.AddCrossOrigin();
+builder.Services.AddCorsOrigin();
 
 #endregion
 
@@ -87,12 +87,15 @@ if (app.Environment.IsDevelopment())
 
 }
 
+// le mieux c'est de le gérer au niveau des serveur Web
+app.UseCors(CorsSelfieExtend.DefaultPolicyName); // utilisation de la politique de cross origin pour autoriser les requetes depuis n'importe quelle origine
+
 app.UseHttpsRedirection();
 
 app.UseAuthentication();        //-- mise en place de l'authentification n'importe laquelle
 app.UseAuthorization();
 
-app.UseCors(CrosSelfieExtend.DefaultPolicyName);
+app.UseCors(CorsSelfieExtend.DefaultPolicyName);
 
 app.MapControllers();
 

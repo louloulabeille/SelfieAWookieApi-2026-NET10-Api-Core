@@ -1,13 +1,13 @@
 ﻿namespace SelfieAWookieApi.Applications.ExtensionsMethods
 {
-    public static class CrosSelfieExtend
+    public static class CorsSelfieExtend
     {
-        public static string DefaultPolicyName { get; } = "DefaultPolicyName";
+        public const string DefaultPolicyName = "DefaultPolicyName";
 
 
         extension( IServiceCollection services)
         {
-            public IServiceCollection AddCrossOrigin()
+            public IServiceCollection AddCorsOrigin()
             {
                 return services.AddCors(options =>
                 {
