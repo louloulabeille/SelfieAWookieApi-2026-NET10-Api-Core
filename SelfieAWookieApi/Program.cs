@@ -89,6 +89,7 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
+app.UseAuthentication();        //-- mise en place de l'authentification n'importe laquelle
 app.UseAuthorization();
 
 app.UseCors(CrosSelfieExtend.DefaultPolicyName);
