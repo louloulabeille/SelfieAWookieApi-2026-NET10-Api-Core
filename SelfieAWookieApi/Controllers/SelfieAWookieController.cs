@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Components.Forms;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -9,6 +10,7 @@ using SelfieAWookie.Core.Selfies.Infrastructure.UnitOfWork;
 using SelfieAWookie.Core.Selfies.Interface.Repository;
 using SelfieAWookie.Core.Selfies.Interface.UnitOfWork;
 using SelfieAWookieApi.Applications.DTO;
+using SelfieAWookieApi.Applications.ExtensionsMethods;
 using SelfieAWookies.Selfies.Domain;
 using System.Data;
 using System.Reflection.Metadata;
@@ -17,6 +19,7 @@ namespace SelfieAWookieApi.Controllers
 {
     [Route("api/v1/[controller]")]
     [ApiController]
+    [EnableCors(PolicyCorsForApi.Default_Policy)]
     public class SelfieAWookieController : ControllerBase
     //public class SelfieAWookieController(ILogger<SelfieAWookieController> logger): ControllerBase
     {
@@ -87,6 +90,8 @@ namespace SelfieAWookieApi.Controllers
 
         [Route("GetAll")]
         [HttpGet]
+        //[EnableCors(PolicyCorsForApi.Requete_Policy)]
+        [DisableCors]
         public IActionResult GetAll([FromQuery] int? id)
         {
             var model = _unitOfWork.Repository<Selfie>().GetAll().AsQueryable();

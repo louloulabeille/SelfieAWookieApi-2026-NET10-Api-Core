@@ -18,6 +18,10 @@ builder.Services.AddEndpointsApiExplorer();
 //ajout de swagger pour la documentation de l'API & il faut installer le package
 //Swashbuckle.AspNetCore pour que ça fonctionne
 builder.Services.AddSwaggerGen();
+#endregion
+
+#region CORS
+builder.Services.AddPolicyCorsForApi(builder.Configuration);
 
 #endregion
 
@@ -56,7 +60,7 @@ if (app.Environment.IsDevelopment())
     #region lancement du swagger
     // lancement du swagger
     app.UseSwagger();
-    app.UseSwaggerUI(); // lien https://localhost:7030/swagger/index.html
+    app.UseSwaggerUI(); // lien https://127.0.0.1:7030/swagger/index.html
 
     // lien vers le swagger pour le mettre à la racine
     /*app.UseSwaggerUI(options => // UseSwaggerUI is called only in Development.
@@ -69,6 +73,8 @@ if (app.Environment.IsDevelopment())
     #endregion 
 
 }
+
+app.UseCors(PolicyCorsForApi.Url_Policy);
 
 app.UseHttpsRedirection();
 
