@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using SelfieAWookie.Core.Selfies.Infrastructure;
 using SelfieAWookie.Core.Selfies.Infrastructure.Database;
@@ -40,6 +41,16 @@ builder.Services.AddDbContext<SelfieAWookieDbContext>(options =>
 #region injection de dépendance
 //builder.Services.AddScoped<ISelfieRepository,SelfieRepository>();
 builder.Services.AddInjectionRepository();
+#endregion
+
+#region Token JWT Authentification
+builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+.AddJwtBearer(jwtOptions =>
+{
+    jwtOptions.Authority = "https://{--your-authority--}";
+    jwtOptions.Audience = "https://{--your-audience--}";
+});
+
 #endregion
 
 /*

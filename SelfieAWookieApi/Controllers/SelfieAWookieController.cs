@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Components.Forms;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Components.Forms;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -20,6 +21,7 @@ namespace SelfieAWookieApi.Controllers
     [Route("api/v1/[controller]")]
     [ApiController]
     [EnableCors(PolicyCorsForApi.Default_Policy)]
+    [Authorize]
     public class SelfieAWookieController : ControllerBase
     //public class SelfieAWookieController(ILogger<SelfieAWookieController> logger): ControllerBase
     {
