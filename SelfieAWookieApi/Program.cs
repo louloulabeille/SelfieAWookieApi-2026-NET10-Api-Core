@@ -44,12 +44,7 @@ builder.Services.AddInjectionRepository();
 #endregion
 
 #region Token JWT Authentification
-builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-.AddJwtBearer(jwtOptions =>
-{
-    jwtOptions.Authority = "https://{--your-authority--}";
-    jwtOptions.Audience = "https://{--your-audience--}";
-});
+//Mise en place de JWT Bearer avec une mise en place dans un autre WebApi
 
 #endregion
 
