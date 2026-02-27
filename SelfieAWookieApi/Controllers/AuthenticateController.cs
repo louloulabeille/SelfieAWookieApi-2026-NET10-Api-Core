@@ -22,11 +22,15 @@ namespace SelfieAWookieApi.Controllers
         private readonly  IConfiguration            _config = config;
         #endregion
 
-
+        /// <summary>
+        /// Vérification du login avec la création du token
+        /// </summary>
+        /// <param name="loginDTO"></param>
+        /// <returns></returns>
         [HttpPost]
         public async Task<IActionResult> Login([FromBody]LoginDTO loginDTO)
         {
-            if (loginDTO is null ) return this.BadRequest("Login ou mot de passe manquand.");
+            if (loginDTO is null || loginDTO.Password is null) return this.BadRequest("Login ou mot de passe manquand.");
 
             var user = await _userManager.FindByEmailAsync(loginDTO.Login);
 
@@ -43,6 +47,28 @@ namespace SelfieAWookieApi.Controllers
             }
 
             return this.BadRequest("Problem dans la connexion.");
+        }
+
+
+        [Route("register")]
+        [HttpPost]
+        public async Task<IActionResult> Register([FromBody] LoginDTO loginDTO) {
+
+            if (loginDTO is null ||  loginDTO.Password is null) return this.BadRequest("Login ou mot de passe manquand.");
+
+            var user = new IdentityUser() { 
+                Email = loginDTO.Login,
+            };
+
+            var success = await _userManager.CreateAsync(user);
+
+            if (success.Succeeded) loginDTO.Token = SecurityTokenGenerate.GenerateJwtToken(user, _config);
+            else
+                return BadRequest(success.Errors);
+            
+
+            return this.Ok(loginDTO);
+        
         }
     }
 }
