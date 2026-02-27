@@ -25,7 +25,7 @@ namespace SelfieAWookie.Core.Selfies.Infrastructure.Database
             var optionBuilder = new DbContextOptionsBuilder<SelfieAWookieDbContext>();
             //optionBuilder.UseSqlServer(@"Server=localhost\SQLEXPRESS;Database=Selfie-Dev;Trusted_Connection=True;TrustServerCertificate=True;");
             //optionBuilder.UseNpgsql(@"Server=localhost;Port=5432;Database=Selfie-Dev;User Id=sa;Password=ieupn486;");
-            optionBuilder.UseNpgsql(builder.GetConnectionString(""));   
+            optionBuilder.UseNpgsql(builder.GetConnectionString("DefaultConnection"));   
             return new SelfieAWookieDbContext(optionBuilder.Options);
 
     }
