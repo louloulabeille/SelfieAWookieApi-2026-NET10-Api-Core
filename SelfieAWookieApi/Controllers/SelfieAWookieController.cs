@@ -15,29 +15,23 @@ namespace SelfieAWookieApi.Controllers
     [Route("api/v1/[controller]")]
     [ApiController]
     [Authorize]
-    public class SelfieAWookieController : ControllerBase
+    public class SelfieAWookieController(ISelfieRepository repository, IWebHostEnvironment webHost) : ControllerBase
     //public class SelfieAWookieController(ILogger<SelfieAWookieController> logger): ControllerBase
     {
         #region constructeur
-        /*
-        public SelfieAWookieController(ISelfieRepository repository)
-        {
-            _repository = repository;
-        }
-        */
-        public SelfieAWookieController(ISelfieRepository repository, IWebHostEnvironment webHost)
-        {
-            _repository = repository;
-            _webhost = webHost;
-        }
+        //public SelfieAWookieController(ISelfieRepository repository, IWebHostEnvironment webHost)
+        //{
+        //    _repository = repository;
+        //    _webhost = webHost;
+        //}
         #endregion
 
 
         #region private fields
         //private readonly ILogger<SelfieAWookieController> _logger = logger ;
         //private readonly SelfieAWookieDbContext? _context;
-        private readonly ISelfieRepository _repository;
-        private readonly IWebHostEnvironment _webhost;
+        private readonly ISelfieRepository _repository = repository;
+        private readonly IWebHostEnvironment _webhost = webHost;
         #endregion
 
         #region Public Methods

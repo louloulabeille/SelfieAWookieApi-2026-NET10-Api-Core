@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Microsoft.IdentityModel.Tokens;
@@ -49,6 +50,10 @@ builder.Services.AddInjectionRepository();
 
 #region JWT
 // TODO : mise en place de l'authentification JWT
+
+// mise en place de Identity.Ui
+builder.Services.AddCustonIdentityUser();
+
 builder.Services.AddCustomlsAuthentification(builder.Configuration);
 #endregion
 

@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.WebSockets;
 using Microsoft.IdentityModel.Tokens;
+using SelfieAWookie.Core.Selfies.Infrastructure.Database;
 using System.Text;
 
 namespace SelfieAWookieApi.Applications.ExtensionsMethods
@@ -9,6 +11,12 @@ namespace SelfieAWookieApi.Applications.ExtensionsMethods
     {
         extension(IServiceCollection services)
         {
+            /// <summary>
+            /// installer le framework Authentification Jbearer mais avant au niveau de la base il faut installer
+            /// entity identity framwork et créer les tables en migrant
+            /// </summary>
+            /// <param name="config"></param>
+            /// <returns></returns>
             public IServiceCollection AddCustomlsAuthentification(IConfiguration config)
             {
                 // récupération de la key de chiffrement qui est dans le le settings
@@ -27,9 +35,38 @@ namespace SelfieAWookieApi.Applications.ExtensionsMethods
                         ValidateAudience = false,
                         ValidateIssuer = false,
                         ValidateActor = false,
-                        ValidateLifetime = true,
+                        ValidateLifetime = true,    // durée de vie à paramétrer lors de la création du token envoyer vers l'user
                     };
                 });
+
+                return services;
+            }
+
+
+            /// <summary>
+            /// Mise en place du paramétrage par défaut de IdentityUser
+            /// par exemple la taille du mot de passe s'il faut un mail de confirmation
+            /// etc 
+            /// installer le framework Identity.Ui
+            /// </summary>
+            /// <returns></returns>
+            public IServiceCollection AddCustonIdentityUser()
+            {
+                services.AddDefaultIdentity<IdentityUser>(options =>
+                {
+                    options.Password = new PasswordOptions()
+                    {
+                        RequiredLength = 12,
+                        RequireUppercase = true,
+                        RequiredUniqueChars = 1,
+                        RequireLowercase = true,
+                        RequireDigit = true,
+                        RequireNonAlphanumeric = true,
+                    };
+                    //options.SignIn.RequireConfirmedEmail = true;
+                    //options.SignIn.RequireConfirmedAccount = true;
+                })
+                        .AddEntityFrameworkStores<SelfieAWookieDbContext>();
 
                 return services;
             }
