@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using SelfieAWookie.Core.Selfies.Infrastructure.Database;
 using SelfieAWookie.Core.Selfies.Infrastructure.Repository;
@@ -17,6 +18,12 @@ builder.Services.AddEndpointsApiExplorer();
 //ajout de swagger pour la documentation de l'API & il faut installer le package
 //Swashbuckle.AspNetCore pour que ça fonctionne
 builder.Services.AddSwaggerGen();
+#endregion
+
+#region CrossOrigin
+//ajout de la politique de cross origin pour autoriser les requetes depuis n'importe quelle origine
+// au niveau de l'application autant le mettre en place directement au niveau du serveur
+builder.Services.AddCrossOrigin();
 
 #endregion
 
@@ -35,6 +42,17 @@ builder.Services.AddDbContext<SelfieAWookieDbContext>(options =>
 #region injection de dépendance
 //builder.Services.AddScoped<ISelfieRepository,SelfieRepository>();
 builder.Services.AddInjectionRepository();
+#endregion
+
+#region JWT
+// TODO : mise en place de l'authentification JWT
+builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+.AddJwtBearer(jwtOptions =>
+{
+    jwtOptions.Authority = "https://{--your-authority--}";
+    jwtOptions.Audience = "https://{--your-audience--}";
+});
+
 #endregion
 
 /*
@@ -72,6 +90,8 @@ if (app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 
 app.UseAuthorization();
+
+app.UseCors(CrosSelfieExtend.DefaultPolicyName);
 
 app.MapControllers();
 
