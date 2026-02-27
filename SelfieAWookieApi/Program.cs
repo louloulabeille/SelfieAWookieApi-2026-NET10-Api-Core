@@ -1,9 +1,12 @@
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using Microsoft.IdentityModel.Tokens;
 using SelfieAWookie.Core.Selfies.Infrastructure.Database;
 using SelfieAWookie.Core.Selfies.Infrastructure.Repository;
 using SelfieAWookie.Core.Selfies.Interface.Repository;
 using SelfieAWookieApi.Applications.ExtensionsMethods;
+using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -46,13 +49,7 @@ builder.Services.AddInjectionRepository();
 
 #region JWT
 // TODO : mise en place de l'authentification JWT
-builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-.AddJwtBearer(jwtOptions =>
-{
-    jwtOptions.Authority = "https://{--your-authority--}";
-    jwtOptions.Audience = "https://{--your-audience--}";
-});
-
+builder.Services.AddCustomlsAuthentification(builder.Configuration);
 #endregion
 
 /*
