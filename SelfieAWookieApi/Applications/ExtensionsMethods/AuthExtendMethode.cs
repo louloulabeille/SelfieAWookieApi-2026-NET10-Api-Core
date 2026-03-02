@@ -59,8 +59,8 @@ namespace SelfieAWookieApi.Applications.ExtensionsMethods
                         RequireDigit = true,
                         RequireNonAlphanumeric = true,
                     };
-                    options.SignIn.RequireConfirmedAccount  = true;
-                    options.SignIn.RequireConfirmedEmail = true;
+                    //options.SignIn.RequireConfirmedAccount  = true;
+                    //options.SignIn.RequireConfirmedEmail = true;
                 }).AddEntityFrameworkStores<SelfieAWookieDbContext>();
 
 

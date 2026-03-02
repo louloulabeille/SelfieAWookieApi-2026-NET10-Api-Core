@@ -2,15 +2,17 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using SelfieAWookieApi.Applications.DTO;
+using SelfieAWookieApi.Applications.Security;
 
 namespace SelfieAWookieApi.Controllers
 {
     [Route("api/v1/[controller]")]
     [ApiController]
-    public class AuthenticateController(UserManager<IdentityUser> userManager) : ControllerBase
+    public class AuthenticateController(UserManager<IdentityUser> userManager, IConfiguration configuration) : ControllerBase
     {
         #region private fields
         private readonly UserManager<IdentityUser> _userManager = userManager;
+        private readonly IConfiguration _configuration = configuration;
         #endregion
 
         [Route("register")]
@@ -28,7 +30,8 @@ namespace SelfieAWookieApi.Controllers
             var succes = await _userManager.CreateAsync(user);
 
             if (succes.Succeeded) { 
-                auth.Login = string.Empty; 
+                auth.Login = string.Empty;
+                auth.Token = SecurityTokenGenerate.GenerateTokenJWT(_configuration, user);
                 return this.Ok(auth);
             }
 
