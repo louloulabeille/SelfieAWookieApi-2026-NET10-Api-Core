@@ -12,14 +12,15 @@ namespace SelfieAWookieApi.Controllers
 {
     [Route("api/v1/[controller]")]
     [ApiController]
-    public class AuthenticateController(SelfieAWookieDbContext context,UserManager<IdentityUser> userManager
+    
+    public class AuthenticateController(UserManager<IdentityUser> userManager
         , IConfiguration config) 
         : Controller
     {
         #region private field
-        private readonly SelfieAWookieDbContext     _context = context;
+        //private readonly SelfieAWookieDbContext     _context = context;
         private readonly UserManager<IdentityUser>  _userManager = userManager;
-        private readonly  IConfiguration            _config = config;
+        private readonly IConfiguration            _config = config;
         #endregion
 
         /// <summary>
@@ -39,9 +40,10 @@ namespace SelfieAWookieApi.Controllers
             {
                 return this.Ok(new LoginDTO()
                 {
-                    Login = user.Email!,
-                    Name = user.UserName,
-                    Token = SecurityTokenGenerate.GenerateJwtToken(user, _config)
+                    Login       = user.Email!,
+                    Name        = user.UserName,
+                    Password    = "",
+                    Token       = SecurityTokenGenerate.GenerateJwtToken(user, _config)
 
                 });
             }
@@ -56,13 +58,18 @@ namespace SelfieAWookieApi.Controllers
 
             if (loginDTO is null ||  loginDTO.Password is null) return this.BadRequest("Login ou mot de passe manquand.");
 
-            var user = new IdentityUser() { 
+            var user = new IdentityUser(loginDTO.Login) { 
                 Email = loginDTO.Login,
+                UserName = loginDTO.Name
             };
 
             var success = await _userManager.CreateAsync(user);
 
-            if (success.Succeeded) loginDTO.Token = SecurityTokenGenerate.GenerateJwtToken(user, _config);
+            if (success.Succeeded)
+            {
+                loginDTO.Token = SecurityTokenGenerate.GenerateJwtToken(user, _config);
+                loginDTO.Password = "";
+            }
             else
                 return BadRequest(success.Errors);
             
