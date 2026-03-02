@@ -45,6 +45,10 @@ builder.Services.AddInjectionRepository();
 
 #region Token JWT Authentification
 //Mise en place de JWT Bearer avec une mise en place dans un autre WebApi
+// - Mettre en place du framework avec le dbcontext Microsoft.AspNetCore.Identity.EntityFrameworkCore
+// - Faire la migration pour créer les tables
+// - Mettre Microsoft.AspNetCore.Authentication.JwtBearer & Microsoft.AspNetCore.Identity.UI
+
 
 #endregion
 
@@ -84,6 +88,7 @@ app.UseCors(PolicyCorsForApi.Url_Policy);
 
 app.UseHttpsRedirection();
 
+app.UseAuthentication();    // -- mise en place d'authentification ave identity
 app.UseAuthorization();
 
 app.MapControllers();
