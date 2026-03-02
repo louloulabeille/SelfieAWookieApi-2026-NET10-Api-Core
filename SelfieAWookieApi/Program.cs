@@ -48,7 +48,8 @@ builder.Services.AddInjectionRepository();
 // - Mettre en place du framework avec le dbcontext Microsoft.AspNetCore.Identity.EntityFrameworkCore
 // - Faire la migration pour créer les tables
 // - Mettre Microsoft.AspNetCore.Authentication.JwtBearer & Microsoft.AspNetCore.Identity.UI
-
+builder.Services.AddAuthentificationService(builder.Configuration);
+builder.Services.AddCustomIdentityUser();
 
 #endregion
 
