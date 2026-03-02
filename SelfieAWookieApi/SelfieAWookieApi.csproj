@@ -20,4 +20,8 @@
     <ProjectReference Include="..\SelfieAWookies.Selfies.Domain\SelfieAWookies.Selfies.Domain.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Applications\Security\" />
+  </ItemGroup>
+
 </Project>
