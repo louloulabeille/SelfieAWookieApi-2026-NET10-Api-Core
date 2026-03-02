@@ -2,7 +2,9 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using SelfieAWookieApi.Applications.DTO;
+using SelfieAWookieApi.Applications.ExtensionsMethods;
 using SelfieAWookieApi.Applications.Security;
+using System.Runtime.CompilerServices;
 
 namespace SelfieAWookieApi.Controllers
 {
@@ -19,23 +21,44 @@ namespace SelfieAWookieApi.Controllers
         [HttpPost]
         public async Task<IActionResult> SaveAuth([FromBody] AuthDTO auth)
         {
-            if(auth is null || (string.IsNullOrEmpty(auth?.Login) && string.IsNullOrEmpty(auth?.Password))) return this.BadRequest("Problème avec l'enregistrement de votre compte");
+            if(auth is null || string.IsNullOrEmpty(auth?.Login) || string.IsNullOrEmpty(auth?.Password)) return this.BadRequest("Problème avec l'enregistrement de votre compte");
 
             IdentityUser user = new ()
             { 
                 UserName = auth.Name ?? auth.Login,
-                Email = auth.Login
+                Email = auth.Login,
             };
+
+            var pass = new PasswordHasher<IdentityUser>();
+            user.PasswordHash = pass.HashPassword(user, auth.Password!);
 
             var succes = await _userManager.CreateAsync(user);
 
             if (succes.Succeeded) { 
-                auth.Login = string.Empty;
+                auth.Password = string.Empty;
                 auth.Token = SecurityTokenGenerate.GenerateTokenJWT(_configuration, user);
                 return this.Ok(auth);
             }
 
             return this.BadRequest(succes.Errors);
+        }
+
+        [Route("Login")]
+        [HttpPost]
+        public async Task<IActionResult> Login([FromBody] AuthDTO auth)
+        {
+            if ( string.IsNullOrEmpty(auth.Login) ||  string.IsNullOrEmpty(auth.Password) ) this.BadRequest("Authentication impossible.");
+
+            var user = await _userManager.FindByEmailAsync(auth.Login);
+
+            if(user is not null && await _userManager.CheckPasswordAsync(user, auth.Password!))
+            {
+                auth.Password = string.Empty;
+                auth.Token = SecurityTokenGenerate.GenerateTokenJWT(_configuration, user);
+                return this.Ok(auth);
+            }
+
+            return this.BadRequest("Problem with password or loggin.");
         }
     }
 }

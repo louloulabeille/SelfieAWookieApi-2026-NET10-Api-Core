@@ -9,6 +9,15 @@ namespace SelfieAWookieApi.Applications.ExtensionsMethods
 {
     public static class AuthExtendMethode
     {
+        private static readonly PasswordOptions _passwordOptions = new PasswordOptions() {
+            RequiredLength = 12, // - taille minimun du passworld
+            RequireUppercase = true,
+            RequiredUniqueChars = 1,
+            RequireLowercase = true,
+            RequireDigit = true,
+            RequireNonAlphanumeric = true,
+        };
+
         extension (IServiceCollection services)
         {
             /// <summary>
@@ -50,15 +59,18 @@ namespace SelfieAWookieApi.Applications.ExtensionsMethods
             public IServiceCollection AddCustomIdentityUser() {
                 services.AddDefaultIdentity<IdentityUser>(options => 
                 {
-                    options.Password = new PasswordOptions()
-                    {
-                        RequiredLength = 12, // - taille minimun du passworld
-                        RequireUppercase = true,
-                        RequiredUniqueChars = 1,
-                        RequireLowercase = true,
-                        RequireDigit = true,
-                        RequireNonAlphanumeric = true,
-                    };
+                    //options.Password = new PasswordOptions()
+                    //{
+                    //    RequiredLength = 12, // - taille minimun du passworld
+                    //    RequireUppercase = true,
+                    //    RequiredUniqueChars = 1,
+                    //    RequireLowercase = true,
+                    //    RequireDigit = true,
+                    //    RequireNonAlphanumeric = true,
+                    //};
+                    options.Password = _passwordOptions;
+                    options.Lockout.MaxFailedAccessAttempts = 3;
+                    options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(10);
                     //options.SignIn.RequireConfirmedAccount  = true;
                     //options.SignIn.RequireConfirmedEmail = true;
                 }).AddEntityFrameworkStores<SelfieAWookieDbContext>();

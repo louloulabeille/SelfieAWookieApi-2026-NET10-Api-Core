@@ -21,6 +21,7 @@ namespace SelfieAWookieApi.Controllers
     [Route("api/v1/[controller]")]
     [ApiController]
     [EnableCors(PolicyCorsForApi.Default_Policy)]
+    [Authorize]
     public class SelfieAWookieController : ControllerBase
     //public class SelfieAWookieController(ILogger<SelfieAWookieController> logger): ControllerBase
     {
