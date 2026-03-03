@@ -63,10 +63,18 @@ namespace SelfieAWookieApi.Applications.ExtensionsMethods
                         RequireDigit = true,
                         RequireNonAlphanumeric = true,
                     };
+
+                    options.User.AllowedUserNameCharacters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-._@+";
+                    options.User.RequireUniqueEmail = true;
+
+                    options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(10);
+                    options.Lockout.MaxFailedAccessAttempts = 3;
+
+                    // - a mettre en place après
                     //options.SignIn.RequireConfirmedEmail = true;
                     //options.SignIn.RequireConfirmedAccount = true;
                 })
-                        .AddEntityFrameworkStores<SelfieAWookieDbContext>();
+                    .AddEntityFrameworkStores<SelfieAWookieDbContext>();
 
                 return services;
             }

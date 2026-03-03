@@ -60,10 +60,10 @@ namespace SelfieAWookieApi.Controllers
 
             var user = new IdentityUser(loginDTO.Login) { 
                 Email = loginDTO.Login,
-                UserName = loginDTO.Name
+                UserName = loginDTO.Name ?? loginDTO.Login,
             };
 
-            var success = await _userManager.CreateAsync(user);
+            var success = await _userManager.CreateAsync(user, loginDTO.Password);
 
             if (success.Succeeded)
             {
