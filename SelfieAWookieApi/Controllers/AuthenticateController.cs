@@ -73,7 +73,7 @@ namespace SelfieAWookieApi.Controllers
         }
 
 
-        [Route("register")]
+        [Route("Register")]
         [HttpPost]
         public async Task<IActionResult> Register([FromBody] LoginDTO loginDTO) {
 
