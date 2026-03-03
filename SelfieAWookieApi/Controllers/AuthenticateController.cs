@@ -13,14 +13,15 @@ namespace SelfieAWookieApi.Controllers
     [Route("api/v1/[controller]")]
     [ApiController]
     
-    public class AuthenticateController(UserManager<IdentityUser> userManager
+    public class AuthenticateController(SignInManager<IdentityUser> signInManager
         , IConfiguration config) 
         : Controller
     {
         #region private field
         //private readonly SelfieAWookieDbContext     _context = context;
-        private readonly UserManager<IdentityUser>  _userManager = userManager;
-        private readonly IConfiguration            _config = config;
+        //private readonly UserManager<IdentityUser>  _userManager = userManager;
+        private readonly SignInManager<IdentityUser> _signInManager = signInManager;
+        private readonly IConfiguration _config                     = config;
         #endregion
 
         /// <summary>
@@ -29,9 +30,10 @@ namespace SelfieAWookieApi.Controllers
         /// <param name="loginDTO"></param>
         /// <returns></returns>
         [HttpPost]
+        [Route("Login")]
         public async Task<IActionResult> Login([FromBody]LoginDTO loginDTO)
         {
-            if (loginDTO is null || loginDTO.Password is null) return this.BadRequest("Login ou mot de passe manquand.");
+            /*if (loginDTO is null || loginDTO.Password is null) return this.BadRequest("Login ou mot de passe manquand.");
 
             var user = await _userManager.FindByEmailAsync(loginDTO.Login);
 
@@ -48,7 +50,26 @@ namespace SelfieAWookieApi.Controllers
                 });
             }
 
-            return this.BadRequest("Problem dans la connexion.");
+            return this.BadRequest("Problem dans la connexion.");*/
+            var user = await _signInManager.UserManager.FindByEmailAsync(loginDTO.Login);
+
+            if (user is not null && !string.IsNullOrEmpty(loginDTO.Password)  )
+            {
+                var result = await _signInManager.CheckPasswordSignInAsync(user, loginDTO.Password!, true);
+                if (result.Succeeded) {
+                    loginDTO.Password   = string.Empty;
+                    loginDTO.Token      = SecurityTokenGenerate.GenerateJwtToken(user,_config);
+                    return this.Ok(loginDTO);
+                }
+
+                if (result.IsLockedOut)
+                {
+                    return this.BadRequest("Account is locked for 10 minutes, after 3 attempts.");
+                }
+                return this.BadRequest("Problem with login and password.");
+            }
+            
+            return this.BadRequest("Problem login and password.");
         }
 
 
@@ -63,7 +84,7 @@ namespace SelfieAWookieApi.Controllers
                 UserName = loginDTO.Name ?? loginDTO.Login,
             };
 
-            var success = await _userManager.CreateAsync(user, loginDTO.Password);
+            var success = await _signInManager.UserManager.CreateAsync(user, loginDTO.Password);
 
             if (success.Succeeded)
             {
