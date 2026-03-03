@@ -49,6 +49,7 @@ namespace SelfieAWookieApi.Controllers
         {
             if ( string.IsNullOrEmpty(auth.Login) ||  string.IsNullOrEmpty(auth.Password) ) this.BadRequest("Authentication impossible.");
 
+            
             var user = await _userManager.FindByEmailAsync(auth.Login);
 
             if(user is not null && await _userManager.CheckPasswordAsync(user, auth.Password!))

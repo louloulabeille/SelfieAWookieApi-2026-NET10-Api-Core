@@ -22,7 +22,7 @@ namespace SelfieAWookieApi.Controllers
     [ApiController]
     [EnableCors(PolicyCorsForApi.Default_Policy)]
     [Authorize]
-    public class SelfieAWookieController : ControllerBase
+    public class SelfieAWookieController (SelfieAWookieDbContext context, IWebHostEnvironment host) : ControllerBase
     //public class SelfieAWookieController(ILogger<SelfieAWookieController> logger): ControllerBase
     {
         #region constructeur
@@ -32,18 +32,18 @@ namespace SelfieAWookieApi.Controllers
             _repository = repository;
         }
         */
-        public SelfieAWookieController(SelfieAWookieDbContext context, IWebHostEnvironment host)
+        /*public SelfieAWookieController(SelfieAWookieDbContext context, IWebHostEnvironment host)
         {
             _unitOfWork = new UnitOfWork(context);
             _host = host;
-        }
+        }*/
         #endregion
 
 
         #region private fields
         //private readonly ILogger<SelfieAWookieController> _logger = logger ;
-        private readonly UnitOfWork _unitOfWork;
-        private readonly IWebHostEnvironment _host;
+        private readonly UnitOfWork _unitOfWork = new (context);
+        private readonly IWebHostEnvironment _host = host;
         #endregion
 
         #region Public Methods

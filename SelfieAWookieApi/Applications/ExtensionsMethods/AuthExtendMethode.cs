@@ -9,7 +9,7 @@ namespace SelfieAWookieApi.Applications.ExtensionsMethods
 {
     public static class AuthExtendMethode
     {
-        private static readonly PasswordOptions _passwordOptions = new PasswordOptions() {
+        private static readonly PasswordOptions _passwordOptions = new () {
             RequiredLength = 12, // - taille minimun du passworld
             RequireUppercase = true,
             RequiredUniqueChars = 1,
@@ -17,6 +17,9 @@ namespace SelfieAWookieApi.Applications.ExtensionsMethods
             RequireDigit = true,
             RequireNonAlphanumeric = true,
         };
+
+        public static PasswordOptions Options() {  return _passwordOptions; }
+
 
         extension (IServiceCollection services)
         {
@@ -29,6 +32,8 @@ namespace SelfieAWookieApi.Applications.ExtensionsMethods
             {
                 // clé de chiffrement du JwtBearer
                 string key = configuration["Key:Symetrique"]??string.Empty;
+
+                if (string.IsNullOrEmpty(key)) throw new ArgumentNullException("AddAuthentificationService","Key JWT is null.");
 
                 services.AddAuthentication(options =>
                 {
@@ -56,8 +61,10 @@ namespace SelfieAWookieApi.Applications.ExtensionsMethods
             /// Paramétrage du User Identity
             /// </summary>
             /// <returns></returns>
-            public IServiceCollection AddCustomIdentityUser() {
-                services.AddDefaultIdentity<IdentityUser>(options => 
+            public IServiceCollection AddCustomOptionsIdentity()
+            {
+
+                /*services.AddDefaultIdentity<IdentityUser>(options => 
                 {
                     //options.Password = new PasswordOptions()
                     //{
@@ -73,7 +80,12 @@ namespace SelfieAWookieApi.Applications.ExtensionsMethods
                     options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(10);
                     //options.SignIn.RequireConfirmedAccount  = true;
                     //options.SignIn.RequireConfirmedEmail = true;
-                }).AddEntityFrameworkStores<SelfieAWookieDbContext>();
+                })
+                .AddEntityFrameworkStores<SelfieAWookieDbContext>();*/
+                services.AddDefaultIdentity<IdentityUser>().AddEntityFrameworkStores<SelfieAWookieDbContext>();
+                services.Configure<IdentityOptions>(options => { 
+                    options.Password = _passwordOptions;
+                });
 
 
                 return services;

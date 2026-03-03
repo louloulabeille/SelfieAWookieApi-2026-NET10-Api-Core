@@ -32,7 +32,7 @@ namespace SelfieAWookieApi.Applications.Security
                 new Claim(JwtRegisteredClaimNames.Email, user.Email!),
                 // the JTI is used for our refresh token which we will be convering in the next video
                 new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
-            ]),
+                ]),
                 // the life span of the token needs to be shorter and utilise refresh token to keep the user signedin
                 // but since this is a demo app we can extend it to fit our current need
                 Expires = DateTime.UtcNow.AddHours(6),

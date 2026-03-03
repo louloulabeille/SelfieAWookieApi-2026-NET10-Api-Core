@@ -1,5 +1,7 @@
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 using SelfieAWookie.Core.Selfies.Infrastructure;
 using SelfieAWookie.Core.Selfies.Infrastructure.Database;
 using SelfieAWookie.Core.Selfies.Infrastructure.Repository;
@@ -22,6 +24,8 @@ builder.Services.AddSwaggerGen();
 #endregion
 
 #region CORS
+
+// voir l'extension de méthode
 builder.Services.AddPolicyCorsForApi(builder.Configuration);
 
 #endregion
@@ -49,7 +53,7 @@ builder.Services.AddInjectionRepository();
 // - Faire la migration pour créer les tables
 // - Mettre Microsoft.AspNetCore.Authentication.JwtBearer & Microsoft.AspNetCore.Identity.UI
 builder.Services.AddAuthentificationService(builder.Configuration);
-builder.Services.AddCustomIdentityUser();
+builder.Services.AddCustomOptionsIdentity();
 
 #endregion
 
