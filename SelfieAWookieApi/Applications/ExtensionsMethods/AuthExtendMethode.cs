@@ -33,7 +33,7 @@ namespace SelfieAWookieApi.Applications.ExtensionsMethods
                 // clé de chiffrement du JwtBearer
                 string key = configuration["Key:Symetrique"]??string.Empty;
 
-                if (string.IsNullOrEmpty(key)) throw new ArgumentNullException("AddAuthentificationService","Key JWT is null.");
+                if (string.IsNullOrEmpty(key)) throw new ArgumentNullException("Key JWT is null.");
 
                 services.AddAuthentication(options =>
                 {
@@ -64,7 +64,7 @@ namespace SelfieAWookieApi.Applications.ExtensionsMethods
             public IServiceCollection AddCustomOptionsIdentity()
             {
 
-                /*services.AddDefaultIdentity<IdentityUser>(options => 
+                services.AddDefaultIdentity<IdentityUser>(options => 
                 {
                     //options.Password = new PasswordOptions()
                     //{
@@ -75,18 +75,18 @@ namespace SelfieAWookieApi.Applications.ExtensionsMethods
                     //    RequireDigit = true,
                     //    RequireNonAlphanumeric = true,
                     //};
-                    options.Password = _passwordOptions;
+                    options.Password = _passwordOptions; // paramétrage du mot de passe lors de sa création
+                    // - paramétrage de nb access failed et temps de blocage
                     options.Lockout.MaxFailedAccessAttempts = 3;
                     options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(10);
+                    // - paramétrage du user 
+                    options.User.AllowedUserNameCharacters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-._@+";
+                    options.User.RequireUniqueEmail = true;
+                    
                     //options.SignIn.RequireConfirmedAccount  = true;
                     //options.SignIn.RequireConfirmedEmail = true;
                 })
-                .AddEntityFrameworkStores<SelfieAWookieDbContext>();*/
-                services.AddDefaultIdentity<IdentityUser>().AddEntityFrameworkStores<SelfieAWookieDbContext>();
-                services.Configure<IdentityOptions>(options => { 
-                    options.Password = _passwordOptions;
-                });
-
+                .AddEntityFrameworkStores<SelfieAWookieDbContext>();
 
                 return services;
             }

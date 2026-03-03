@@ -21,18 +21,20 @@ namespace SelfieAWookieApi.Controllers
         [HttpPost]
         public async Task<IActionResult> SaveAuth([FromBody] AuthDTO auth)
         {
-            if(auth is null || string.IsNullOrEmpty(auth?.Login) || string.IsNullOrEmpty(auth?.Password)) return this.BadRequest("Problème avec l'enregistrement de votre compte");
+            
 
-            IdentityUser user = new ()
-            { 
+            if (auth is null || string.IsNullOrEmpty(auth?.Login) || string.IsNullOrEmpty(auth?.Password))
+            {
+                return this.BadRequest("Problème avec l'enregistrement de votre compte." );
+            }
+
+            IdentityUser user = new()
+            {
                 UserName = auth.Name ?? auth.Login,
                 Email = auth.Login,
             };
 
-            var pass = new PasswordHasher<IdentityUser>();
-            user.PasswordHash = pass.HashPassword(user, auth.Password!);
-
-            var succes = await _userManager.CreateAsync(user);
+            var succes = await _userManager.CreateAsync(user,auth.Password);
 
             if (succes.Succeeded) { 
                 auth.Password = string.Empty;
