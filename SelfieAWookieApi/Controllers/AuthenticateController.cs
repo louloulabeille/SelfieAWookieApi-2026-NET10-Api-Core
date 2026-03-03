@@ -34,6 +34,7 @@ namespace SelfieAWookieApi.Controllers
                 Email = auth.Login,
             };
 
+            // - mettre le mot de passe en paramètre pour qu'il le hash et le vérifie selon le paramétrage du mot de passe
             var succes = await _userManager.CreateAsync(user,auth.Password);
 
             if (succes.Succeeded) { 
