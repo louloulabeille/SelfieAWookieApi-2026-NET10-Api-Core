@@ -106,7 +106,7 @@ namespace SelfieAWookieApi.Controllers
             return result;
         }
 
-        //[HttpGet("Get-All")]
+        //[HttpGet("GetAll")]
         [Route("GetAll")]
         [HttpGet]
         public IActionResult GetAll([FromQuery] int? id)

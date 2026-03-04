@@ -98,5 +98,17 @@ namespace SelfieAWookieApi.Controllers
             return this.Ok(loginDTO);
         
         }
+
+        [Authorize]
+        [Route("Logout")]
+        [HttpGet]
+        public async Task<IActionResult> Logout()
+        {
+            _signInManager.SignOutAsync();
+
+            //await _signInManager.SignOutAsync();
+
+            return this.Ok();
+        }
     }
 }
