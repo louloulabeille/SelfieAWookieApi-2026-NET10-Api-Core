@@ -1,13 +1,5 @@
 {
   "profiles": {
-    "http": {
-      "commandName": "Project",
-      "environmentVariables": {
-        "ASPNETCORE_ENVIRONMENT": "Development"
-      },
-      "dotnetRunMessages": true,
-      "applicationUrl": "http://localhost:5041"
-    },
     "https": {
       "commandName": "Project",
       "environmentVariables": {
@@ -22,16 +14,6 @@
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       }
-    },
-    "httpStaging": {
-      "commandName": "Project",
-      "environmentVariables": {
-        "ASPNETCORE_ENVIRONMENT": "Staging",
-        "Key__Symetrique": "8f6b2f77ab798fdb6cf6820b9e2ed042242dc75ba8bcba36b5ade8960a580a6216ebb6356e1a16a0d5c9639daffcf0499c1450a230320809753ed77cb1a36550",
-        "ConnectionStrings__DefaultConnection": "Server=localhost;Port=5432;Database=Selfie-Dev;User Id=sa;Password=ieupn486;"
-      },
-      "dotnetRunMessages": true,
-      "applicationUrl": "http://localhost:5041"
     },
     "httpsStaging": {
       "commandName": "Project",
