@@ -368,3 +368,4 @@ FodyWeavers.xsd
 /SelfieAWookieApi/images/selfies
 /SelfieAWookieApi/Test/images/selfies
 /SelfiAWookie.Core.Selfies.Infrastructure/Settings/appsettings.Development.json
+/SelfieAWookieApi/appsettings.Staging.json
