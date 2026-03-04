@@ -2,7 +2,9 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.WebSockets;
 using Microsoft.IdentityModel.Tokens;
+using SelfieAWookie.Core.Selfies.Infrastructure.Configuration;
 using SelfieAWookie.Core.Selfies.Infrastructure.Database;
+using SelfieAWookieApi.Applications.DTO;
 using System.Text;
 
 namespace SelfieAWookieApi.Applications.ExtensionsMethods
@@ -20,8 +22,10 @@ namespace SelfieAWookieApi.Applications.ExtensionsMethods
             public IServiceCollection AddCustomlsAuthentification(IConfiguration config)
             {
                 // récupération de la key de chiffrement qui est dans le le settings
-                string key = config["Key:Symetrique"]?? string.Empty;
-
+                //string key = config["Key:Symetrique"]?? string.Empty;
+                SelfieAWookie.Core.Selfies.Infrastructure.Configuration.SecurityOptions? cle = new();
+                config.GetSection("Key").Bind(cle);
+                
                 services.AddAuthentication(options => {
                     options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
                     options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
@@ -31,7 +35,7 @@ namespace SelfieAWookieApi.Applications.ExtensionsMethods
                     options.SaveToken = true;
                     options.TokenValidationParameters = new TokenValidationParameters()
                     {
-                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(key)),
+                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(cle.Symetrique!)),
                         ValidateAudience = false,
                         ValidateIssuer = false,
                         ValidateActor = false,

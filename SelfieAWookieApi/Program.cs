@@ -55,6 +55,8 @@ builder.Services.AddInjectionRepository();
 builder.Services.AddCustonIdentityUser();
 
 builder.Services.AddCustomlsAuthentification(builder.Configuration);
+
+builder.Services.AddServiceSecurityOptionsExtend(builder.Configuration);
 #endregion
 
 /*

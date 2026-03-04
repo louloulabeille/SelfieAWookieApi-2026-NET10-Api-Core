@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.IdentityModel.Tokens;
+using SelfieAWookie.Core.Selfies.Infrastructure.Configuration;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
@@ -8,11 +9,12 @@ namespace SelfieAWookieApi.Applications.Security
 {
     public static class SecurityTokenGenerate
     {
-        public static string GenerateJwtToken(IdentityUser user, IConfiguration config)
+        public static string GenerateJwtToken(IdentityUser user, SecurityOptions options)
         {
             // Now its ime to define the jwt token which will be responsible of creating our tokens
             var jwtTokenHandler = new JwtSecurityTokenHandler();
-            string secret = config["Key:Symetrique"] ?? string.Empty;
+            //string secret = config["Key:Symetrique"] ?? string.Empty;
+            string secret = options.Symetrique ?? string.Empty;
 
             // We get our secret from the appsettings
             var key = Encoding.UTF8.GetBytes(secret);

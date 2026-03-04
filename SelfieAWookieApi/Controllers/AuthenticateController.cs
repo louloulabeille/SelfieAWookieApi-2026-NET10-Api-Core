@@ -2,8 +2,10 @@
 using Microsoft.AspNetCore.HttpLogging;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using SelfieAWookie.Core.Framework;
+using SelfieAWookie.Core.Selfies.Infrastructure.Configuration;
 using SelfieAWookie.Core.Selfies.Infrastructure.Database;
 using SelfieAWookieApi.Applications.DTO;
 using SelfieAWookieApi.Applications.Security;
@@ -14,7 +16,7 @@ namespace SelfieAWookieApi.Controllers
     [ApiController]
     
     public class AuthenticateController(SignInManager<IdentityUser> signInManager
-        , IConfiguration config) 
+        , IConfiguration config, IOptions<SecurityOptions> options)
         : Controller
     {
         #region private field
@@ -22,6 +24,7 @@ namespace SelfieAWookieApi.Controllers
         //private readonly UserManager<IdentityUser>  _userManager = userManager;
         private readonly SignInManager<IdentityUser> _signInManager = signInManager;
         private readonly IConfiguration _config                     = config;
+        private readonly SecurityOptions _options                   = options.Value;
         #endregion
 
         /// <summary>
@@ -58,7 +61,8 @@ namespace SelfieAWookieApi.Controllers
                 var result = await _signInManager.CheckPasswordSignInAsync(user, loginDTO.Password!, true);
                 if (result.Succeeded) {
                     loginDTO.Password   = string.Empty;
-                    loginDTO.Token      = SecurityTokenGenerate.GenerateJwtToken(user,_config);
+                    //loginDTO.Token      = SecurityTokenGenerate.GenerateJwtToken(user,_config);
+                    loginDTO.Token = SecurityTokenGenerate.GenerateJwtToken(user, options.Value);
                     return this.Ok(loginDTO);
                 }
 
@@ -88,7 +92,8 @@ namespace SelfieAWookieApi.Controllers
 
             if (success.Succeeded)
             {
-                loginDTO.Token = SecurityTokenGenerate.GenerateJwtToken(user, _config);
+                //loginDTO.Token = SecurityTokenGenerate.GenerateJwtToken(user, _config);
+                loginDTO.Token = SecurityTokenGenerate.GenerateJwtToken(user, options.Value);
                 loginDTO.Password = "";
             }
             else
@@ -104,7 +109,7 @@ namespace SelfieAWookieApi.Controllers
         [HttpGet]
         public async Task<IActionResult> Logout()
         {
-            _signInManager.SignOutAsync();
+            //await _signInManager.SignOutAsync();
 
             //await _signInManager.SignOutAsync();
 
