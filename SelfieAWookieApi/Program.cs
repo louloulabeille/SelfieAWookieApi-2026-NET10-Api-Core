@@ -99,7 +99,10 @@ if (app.Environment.IsProduction())
 {   // test des variables d'environnement
     app.UseSwagger();
     app.UseSwaggerUI(); // lien https://localhost:7030/swagger/index.html
-
+    Console.WriteLine("Production");
+    Console.WriteLine(app.Environment.WebRootFileProvider);
+    Console.WriteLine(app.Environment.WebRootPath);
+    Console.WriteLine(app.Environment.ApplicationName);
 }
 
 // le mieux c'est de le gérer au niveau des serveur Web
