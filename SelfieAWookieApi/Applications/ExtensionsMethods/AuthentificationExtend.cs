@@ -23,7 +23,7 @@ namespace SelfieAWookieApi.Applications.ExtensionsMethods
             {
                 // récupération de la key de chiffrement qui est dans le le settings
                 //string key = config["Key:Symetrique"]?? string.Empty;
-                SelfieAWookie.Core.Selfies.Infrastructure.Configuration.SecurityOptions? cle = new();
+                SecurityOptions? cle = new();
                 config.GetSection("Key").Bind(cle);
                 
                 services.AddAuthentication(options => {

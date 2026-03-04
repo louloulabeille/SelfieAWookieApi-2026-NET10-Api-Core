@@ -69,12 +69,17 @@ var app = builder.Build();
 
 #region Middleware
 
-// Configure the HTTP request pipeline.
+// Configure the HTTP request pipeline.1
 if (app.Environment.IsDevelopment())
 {
     app.MapOpenApi();
+    app.UseDeveloperExceptionPage(); 
 
-    #region lancement du swagger
+}
+
+if (app.Environment.IsStaging() || app.Environment.IsDevelopment())
+{
+    #region lancement du swagger en production aussi
     // lancement du swagger
     app.UseSwagger();
     app.UseSwaggerUI(); // lien https://localhost:7030/swagger/index.html
@@ -86,8 +91,14 @@ if (app.Environment.IsDevelopment())
         options.RoutePrefix = string.Empty;
     });
     */
+    ;
+    #endregion
+}
 
-    #endregion 
+if (app.Environment.IsProduction())
+{   // test des variables d'environnement
+    app.UseSwagger();
+    app.UseSwaggerUI(); // lien https://localhost:7030/swagger/index.html
 
 }
 
