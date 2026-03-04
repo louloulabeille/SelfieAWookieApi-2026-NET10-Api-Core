@@ -65,6 +65,8 @@ builder.Services.AddServiceSecurityOptionsExtend(builder.Configuration);
  *
  */
 
+
+
 var app = builder.Build();
 
 #region Middleware
