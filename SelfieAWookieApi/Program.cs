@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Microsoft.IdentityModel.Tokens;
 using SelfieAWookie.Core.Selfies.Infrastructure.Database;
+using SelfieAWookie.Core.Selfies.Infrastructure.Loggers;
 using SelfieAWookie.Core.Selfies.Infrastructure.Repository;
 using SelfieAWookie.Core.Selfies.Interface.Repository;
 using SelfieAWookieApi.Applications.ExtensionsMethods;
@@ -66,7 +67,7 @@ builder.Services.AddServiceSecurityOptionsExtend(builder.Configuration);
  *
  */
 
-
+builder.Logging.AddProvider(new SelfieLoggerProvider());
 
 var app = builder.Build();
 
@@ -117,5 +118,7 @@ app.UseCors(CorsSelfieExtend.DefaultPolicyName);
 app.MapControllers();
 
 #endregion
+app.Logger.LogInformation($"{DateTime.Now} : lancement application");
 
 app.Run();
+

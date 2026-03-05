@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.DataProtection.Repositories;
 using Microsoft.AspNetCore.HttpLogging;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -16,7 +17,7 @@ namespace SelfieAWookieApi.Controllers
     [ApiController]
     
     public class AuthenticateController(SignInManager<IdentityUser> signInManager
-        , IConfiguration config, IOptions<SecurityOptions> options)
+        , IConfiguration config, IOptions<SecurityOptions> options, ILogger<AuthenticateController> logger)
         : Controller
     {
         #region private field
@@ -25,6 +26,7 @@ namespace SelfieAWookieApi.Controllers
         private readonly SignInManager<IdentityUser> _signInManager = signInManager;
         private readonly IConfiguration _config                     = config;
         private readonly SecurityOptions _options                   = options.Value;
+        private readonly ILogger<AuthenticateController> _logger    = logger;
         #endregion
 
         /// <summary>
@@ -34,6 +36,10 @@ namespace SelfieAWookieApi.Controllers
         /// <returns></returns>
         [HttpPost]
         [Route("Login")]
+        /* le type, de retour qu'envoi la méthode */
+        [ProducesResponseType(StatusCodes.Status200OK)]     // Ok
+        [ProducesResponseType(StatusCodes.Status400BadRequest)] // BadRequest
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)] // Error interne
         public async Task<IActionResult> Login([FromBody]LoginDTO loginDTO)
         {
             /*if (loginDTO is null || loginDTO.Password is null) return this.BadRequest("Login ou mot de passe manquand.");
@@ -54,31 +60,46 @@ namespace SelfieAWookieApi.Controllers
             }
 
             return this.BadRequest("Problem dans la connexion.");*/
-            var user = await _signInManager.UserManager.FindByEmailAsync(loginDTO.Login);
 
-            if (user is not null && !string.IsNullOrEmpty(loginDTO.Password)  )
+            try
             {
-                var result = await _signInManager.CheckPasswordSignInAsync(user, loginDTO.Password!, true);
-                if (result.Succeeded) {
-                    loginDTO.Password   = string.Empty;
-                    //loginDTO.Token      = SecurityTokenGenerate.GenerateJwtToken(user,_config);
-                    loginDTO.Token = SecurityTokenGenerate.GenerateJwtToken(user, options.Value);
-                    return this.Ok(loginDTO);
+                
+                var user = await _signInManager.UserManager.FindByEmailAsync(loginDTO.Login);
+                //throw new NotImplementedException();
+
+                if (user is not null && !string.IsNullOrEmpty(loginDTO.Password))
+                {
+                    var result = await _signInManager.CheckPasswordSignInAsync(user, loginDTO.Password!, true);
+                    if (result.Succeeded)
+                    {
+                        loginDTO.Password = string.Empty;
+                        //loginDTO.Token      = SecurityTokenGenerate.GenerateJwtToken(user,_config);
+                        loginDTO.Token = SecurityTokenGenerate.GenerateJwtToken(user, options.Value);
+                        return this.Ok(loginDTO);
+                    }
+
+                    if (result.IsLockedOut)
+                    {
+                        return this.BadRequest("Account is locked for 10 minutes, after 3 attempts.");
+                    }
+                    return this.BadRequest("Problem with login and password.");
                 }
 
-                if (result.IsLockedOut)
-                {
-                    return this.BadRequest("Account is locked for 10 minutes, after 3 attempts.");
-                }
-                return this.BadRequest("Problem with login and password.");
+                return this.BadRequest("Problem login and password.");
+            }
+            catch(Exception ex)
+            {
+                this._logger.LogError(ex, "Login Error : @{loginDTO.Login}", loginDTO.Login);
+
+                return this.Problem("Internal problem 500.");
             }
             
-            return this.BadRequest("Problem login and password.");
         }
 
 
         [Route("Register")]
         [HttpPost]
+
         public async Task<IActionResult> Register([FromBody] LoginDTO loginDTO) {
 
             if (loginDTO is null ||  loginDTO.Password is null) return this.BadRequest("Login ou mot de passe manquand.");
