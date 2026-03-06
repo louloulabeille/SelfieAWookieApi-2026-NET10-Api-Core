@@ -61,6 +61,10 @@ builder.Services.AddCustomlsAuthentification(builder.Configuration);
 builder.Services.AddServiceSecurityOptionsExtend(builder.Configuration);
 #endregion
 
+#region MediatR
+builder.Services.AddInjectionMediatR();
+#endregion
+
 //builder.Configuration["HTTPS_PORT"] = "7071";
 /*
  * 

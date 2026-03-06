@@ -1,6 +1,7 @@
 ﻿using SelfieAWookie.Core.Selfies.Infrastructure.Repository;
 using SelfieAWookie.Core.Selfies.Interface.Repository;
 
+
 namespace SelfieAWookieApi.Applications.ExtensionsMethods
 {
     // classe d'extension pour l'injection de dépendance du repository
@@ -12,6 +13,11 @@ namespace SelfieAWookieApi.Applications.ExtensionsMethods
             public IServiceCollection AddInjectionRepository()
             {
                 return services.AddScoped<ISelfieRepository, SelfieRepository>();
+            }
+
+            public IServiceCollection AddInjectionMediatR()
+            {
+                return services.AddMediatR(cfg=> cfg.RegisterServicesFromAssembly(typeof(Program).Assembly));
             }
         }
         #endregion

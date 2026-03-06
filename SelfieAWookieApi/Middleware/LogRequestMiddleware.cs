@@ -3,8 +3,8 @@
     public class LogRequestMiddleware (RequestDelegate? next, ILogger<LogRequestMiddleware>? logger)
     {
         #region private Fields
-        private RequestDelegate? _next = next;
-        private ILogger<LogRequestMiddleware>? _logger = logger;
+        private readonly RequestDelegate? _next = next;
+        private readonly ILogger<LogRequestMiddleware>? _logger = logger;
         #endregion
 
         #region contruct
