@@ -8,6 +8,7 @@ using SelfieAWookie.Core.Selfies.Infrastructure.Loggers;
 using SelfieAWookie.Core.Selfies.Infrastructure.Repository;
 using SelfieAWookie.Core.Selfies.Interface.Repository;
 using SelfieAWookieApi.Applications.ExtensionsMethods;
+using SelfieAWookieApi.Middleware;
 using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -67,11 +68,15 @@ builder.Services.AddServiceSecurityOptionsExtend(builder.Configuration);
  *
  */
 
+#region Ajout Provider Logger
 builder.Logging.AddProvider(new SelfieLoggerProvider());
+#endregion
 
 var app = builder.Build();
 
 #region Middleware
+
+app.UseMiddleware<LogRequestMiddleware>();
 
 // Configure the HTTP request pipeline.1
 if (app.Environment.IsDevelopment())
@@ -81,7 +86,7 @@ if (app.Environment.IsDevelopment())
 
 }
 
-if (app.Environment.IsStaging() || app.Environment.IsDevelopment())
+if (app.Environment.IsStaging() || app.Environment.IsDevelopment() || app.Environment.IsProduction())
 {
     #region lancement du swagger en production aussi
     // lancement du swagger
@@ -99,26 +104,19 @@ if (app.Environment.IsStaging() || app.Environment.IsDevelopment())
     #endregion
 }
 
-if (app.Environment.IsProduction())
-{   // test des variables d'environnement
-    app.UseSwagger();
-    app.UseSwaggerUI(); // lien https://localhost:7030/swagger/index.html
-}
-
 // le mieux c'est de le gérer au niveau des serveur Web
 app.UseCors(CorsSelfieExtend.DefaultPolicyName); // utilisation de la politique de cross origin pour autoriser les requetes depuis n'importe quelle origine
+
 
 app.UseHttpsRedirection();
 
 app.UseAuthentication();        //-- mise en place de l'authentification n'importe laquelle
 app.UseAuthorization();
 
-app.UseCors(CorsSelfieExtend.DefaultPolicyName);
-
 app.MapControllers();
 
 #endregion
-app.Logger.LogInformation($"{DateTime.Now} : lancement application");
+app.Logger.LogInformation($"{DateTime.Now} : start application.");
 
 app.Run();
 
