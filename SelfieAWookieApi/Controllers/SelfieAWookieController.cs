@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -6,7 +7,9 @@ using SelfieAWookie.Core.Framework;
 using SelfieAWookie.Core.Selfies.Infrastructure;
 using SelfieAWookie.Core.Selfies.Infrastructure.Repository;
 using SelfieAWookie.Core.Selfies.Interface.Repository;
+using SelfieAWookieApi.Applications.Commands;
 using SelfieAWookieApi.Applications.DTO;
+using SelfieAWookieApi.Applications.Queries;
 using SelfieAWookies.Selfies.Domain;
 using System.Data;
 
@@ -15,7 +18,8 @@ namespace SelfieAWookieApi.Controllers
     [Route("api/v1/[controller]")]
     [ApiController]
     [Authorize]
-    public class SelfieAWookieController(ISelfieRepository repository, IWebHostEnvironment webHost) : ControllerBase
+    public class SelfieAWookieController(ISelfieRepository repository, IWebHostEnvironment webHost,
+        IMediator mediaR) : ControllerBase
     //public class SelfieAWookieController(ILogger<SelfieAWookieController> logger): ControllerBase
     {
         #region constructeur
@@ -32,6 +36,7 @@ namespace SelfieAWookieApi.Controllers
         //private readonly SelfieAWookieDbContext? _context;
         private readonly ISelfieRepository _repository = repository;
         private readonly IWebHostEnvironment _webhost = webHost;
+        private readonly IMediator _mediaR = mediaR;
         #endregion
 
         #region Public Methods
@@ -106,6 +111,26 @@ namespace SelfieAWookieApi.Controllers
             return result;
         }
 
+        [Route("AddSelfieMediatR")]
+        [HttpPost]
+        public async Task<IActionResult> AddMediatR(SelfieDTOComplete selfie)
+        {
+            IActionResult result = this.BadRequest("Error request add Selfie.");
+
+            if (selfie == null) return this.BadRequest("No data.");
+
+            var model = await _mediaR.Send(new AddSelfieCommand() { Selfie = 
+                selfie
+                });
+
+            if (model.Id == 0) result = this.BadRequest("Impossible to add Selfie");
+            else
+                result = this.Ok(model);
+
+            return result;
+        }
+
+
         //[HttpGet("GetAll")]
         [Route("GetAll")]
         [HttpGet]
@@ -143,6 +168,25 @@ namespace SelfieAWookieApi.Controllers
             if (model != null) result = this.Ok(model);
 
             return result;
+        }
+
+        /// <summary>
+        /// Action du controleur qui utilise mediatR 
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        [Route("GetAllMediatR")]
+        [HttpGet]
+        public async Task<IActionResult> GetAllMediatR([FromQuery] int? id)
+        {
+            if (id is not null && id < 0) return this.BadRequest("id >= 0");
+
+            var model = await this._mediaR.Send(new SelectAllSelfiesQuery()
+            {
+                WookieId = id,
+            });
+
+            return this.Ok(model);
         }
 
         [Route("Photos")]

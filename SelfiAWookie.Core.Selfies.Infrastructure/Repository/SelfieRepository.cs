@@ -11,10 +11,10 @@ namespace SelfieAWookie.Core.Selfies.Infrastructure.Repository
 {
     // Classe repository pour les selfies qui implémente l'interface ISelfieRepository
     // et l'interface IDisposable pour la gestion des ressources
-    public class SelfieRepository : ISelfieRepository
+    public class SelfieRepository(SelfieAWookieDbContext context) : ISelfieRepository
     {
         #region private Flields
-        private readonly SelfieAWookieDbContext _context;
+        private readonly SelfieAWookieDbContext _context = context;
         private bool disposed = false;
         #endregion
 
@@ -22,9 +22,6 @@ namespace SelfieAWookie.Core.Selfies.Infrastructure.Repository
         public IUnitOfWork UnitOfWork => _context;
         #endregion
 
-        #region constructeur
-        public SelfieRepository(SelfieAWookieDbContext context) => _context = context;
-        #endregion
 
         #region method interface IDisposable & ISelfieRepository
 

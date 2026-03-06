@@ -62,6 +62,13 @@ builder.Services.AddServiceSecurityOptionsExtend(builder.Configuration);
 #endregion
 
 #region MediatR
+// ajout de MediatR qui implemente Mediator Pattern
+// ajout du package MediatR 
+// faire l'injection de dépendance à partir d'ou voir le programme ci-dessous
+// pour les simples appels de lecture dans la base créer un \Applications\Queries
+// une classe qui hérite de IQuery puis une classe handler qui fait appel à la classe Iquery en parametre
+// la classe Handler c'est elle qui fait la requete vers le repository et le Query prend juste en compte des parametres
+// d'entrée de la requete et le type de donnes à la sortie
 builder.Services.AddInjectionMediatR();
 #endregion
 
@@ -80,6 +87,7 @@ var app = builder.Build();
 
 #region Middleware
 
+// ajout d'un middle ware custom qui sera appelé avec un delegué lors de l'appel d'un dbcontext
 app.UseMiddleware<LogRequestMiddleware>();
 
 // Configure the HTTP request pipeline.1

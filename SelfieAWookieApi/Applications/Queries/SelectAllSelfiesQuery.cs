@@ -6,7 +6,7 @@ namespace SelfieAWookieApi.Applications.Queries
     public class SelectAllSelfiesQuery : IRequest<IEnumerable<SelfieDTO>>
     {
         #region Fields
-        public int WookieId { get; set; }
+        public int? WookieId { get; set; }
         #endregion
 
     }
