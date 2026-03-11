@@ -113,7 +113,7 @@ namespace SelfieTestUnitaire
             ISelfieRepository repository = new SelfieRepository(_context);
 
             //Données à retourner
-            var controller = new SelfieAWookieController(repository, _host);
+            var controller = new SelfieAWookieController(repository, _host, null);
 
             //Act
             var result = controller.GetAll(null);
@@ -137,7 +137,7 @@ namespace SelfieTestUnitaire
             //Arrange
             ISelfieRepository repository = new SelfieRepository(_context);
             //Data
-            var controller = new SelfieAWookieController(repository, _host);
+            var controller = new SelfieAWookieController(repository, _host , null);
 
             //Act
             SelfieDTOComplete ajoutSelfie = new ()
@@ -166,7 +166,7 @@ namespace SelfieTestUnitaire
             ISelfieRepository repository = new SelfieRepository(_context);
 
             //Données à retourner
-            var controller = new SelfieAWookieController(repository, _host);
+            var controller = new SelfieAWookieController(repository, _host, null);
 
             //Act
             controller.Add(new SelfieDTOComplete
@@ -194,7 +194,7 @@ namespace SelfieTestUnitaire
         {
             //Arrange
             ISelfieRepository repository = new SelfieRepository(_context);
-            var controller = new SelfieAWookieController(repository, _host);
+            var controller = new SelfieAWookieController(repository, _host, null);
             var img = new FormFile(Stream.Null,0,0,"data","test.jpeg");
 
             //Act

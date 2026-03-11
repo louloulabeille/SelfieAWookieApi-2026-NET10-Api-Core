@@ -12,7 +12,7 @@ namespace SelfieAWookieApi.Applications.Commands
         #endregion
 
         #region method public IRequestHandler
-        public Task<SelfieDTOComplete> Handle(AddSelfieCommand request, CancellationToken cancellationToken)
+        public async Task<SelfieDTOComplete> Handle(AddSelfieCommand request, CancellationToken cancellationToken)
         {
             var result = _repository.Add(
                 new Selfie()
@@ -26,7 +26,7 @@ namespace SelfieAWookieApi.Applications.Commands
             _repository.UnitOfWork.SaveChanges();
             if (result is not null) request.Selfie.Id = result.Id;
 
-            return Task.FromResult(request.Selfie);
+            return request.Selfie;
 
         }
         #endregion
